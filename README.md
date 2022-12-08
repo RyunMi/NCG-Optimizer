@@ -1,2 +1,2 @@
 # NCG-optimizer
-Pytorch optimizer base on nonlinear conjugate gradient method 
+Pytorch/Tensorflow optimizer base on nonlinear conjugate gradient method. 
