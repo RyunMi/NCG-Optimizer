@@ -15,8 +15,11 @@ Example
 =======
 
 .. code-block:: python
-    
-    "import"
+
+    from ncg-optimizer import PRP
+
+    # model = You Model
+    optimizer = PRP(model.parameters())
 
 Supported Optimizers
 ====================
