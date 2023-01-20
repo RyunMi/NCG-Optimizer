@@ -35,4 +35,3 @@ Linear Conjugate Gradient
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. image:: https://raw.githubusercontent.com/RyunMi/NCG-optimizer/master/docs/LCG.png
-    :aligh: center
