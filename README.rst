@@ -14,7 +14,8 @@ Install
 Example
 =======
 
-::
+.. code-block:: python
+    
     "import"
 
 Supported Optimizers
