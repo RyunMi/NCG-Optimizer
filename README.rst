@@ -29,4 +29,4 @@ Basic Methods
 
 The implementation of all basic methods is based on the book Nonlinear Conjugate Gradient Method[NCGM]_ .
 
-.. [#NCGM] Dai Y H, Yuan Y. Nonlinear conjugate gradient methods[J]. Shanghai Science and Technology Publisher, Shanghai, 2000. 
+.. [NCGM] Dai Y H, Yuan Y. Nonlinear conjugate gradient methods[J]. Shanghai Science and Technology Publisher, Shanghai, 2000. 
