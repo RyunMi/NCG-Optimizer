@@ -33,6 +33,7 @@ The implementation of all basic methods is based on the book "Nonlinear Conjugat
 
 Linear Conjugate Gradient
 ^^^^^^^^^^^^^^^^^^^^^^^^^
+
 +-----------------------------------------------------------------------------------------------------------------+
 | .. image:: https://raw.githubusercontent.com/RyunMi/NCG-optimizer/master/docs/LCG.png  |
 +-----------------------------------------------------------------------------------------------------------------+
