@@ -6,5 +6,7 @@ NCG-optimizer
 
 Install
 ============
+
 ::
+
     $ pip install ncg-optimizer
