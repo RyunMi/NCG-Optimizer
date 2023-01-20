@@ -27,7 +27,7 @@ Supported Optimizers
 Basic Methods
 -------------
 
-The implementation of all basic methods is based on the book Nonlinear Conjugate Gradient Method [#NCGM]_.
+The implementation of all basic methods is based on the book `Nonlinear Conjugate Gradient Method` [#NCGM]_.
 
 .. [#NCGM] Y.H. Dai and Y. Yuan (2000), Nonlinear Conjugate Gradient Methods, Shanghai Scientific and Technical Publishers, Shanghai. (in Chinese)
 
