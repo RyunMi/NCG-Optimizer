@@ -18,8 +18,13 @@ Example
 
     from ncg-optimizer import PRP
 
-    # model = You Model
+    # model = Your Model
     optimizer = PRP(model.parameters())
 
 Supported Optimizers
 ====================
+
+Basic Methods
+-------------
+
+The implementation of all basic methods is based on the book Nonlinear Conjugate Gradient Method[#NCGM]_
