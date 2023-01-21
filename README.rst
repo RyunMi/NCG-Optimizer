@@ -9,7 +9,7 @@ Install
 
 ::
 
-    $ pip install ncg-optimizer
+    $ pip install ncg_optimizer
 
 Example
 =======
