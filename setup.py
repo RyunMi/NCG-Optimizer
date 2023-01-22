@@ -7,6 +7,10 @@ install_requires = [
     'torch>=1.5.0',
 ]
 
+def _read(f):
+    with open(os.path.join(os.path.dirname(__file__), f)) as f_:
+        return f_.read().strip()
+
 def _read_version():
     regexp = re.compile(r"^__version__\W*=\W*'([\d.abrc]+)'")
     init_py = os.path.join(
@@ -26,6 +30,8 @@ setup(
     name='ncg-optimizer',
     version=_read_version(),
     description='Pytorch optimizer based on nonlinear conjugate gradient method',
+    long_description='\n\n'.join((_read('README.rst'), _read('CHANGES.rst'))),
+    long_description_content_type='text/x-rst',
     url='https://github.com/RyunMi/NCG-optimizer',
     author='Kerun Mi @ XTU',
     author_email='ryunxiaomi@gmail.com',
