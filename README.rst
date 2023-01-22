@@ -34,7 +34,7 @@ The implementation of all basic methods is based on the book "Nonlinear Conjugat
 Linear Conjugate Gradient
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The linear conjugate gradient(LCM) method is only applicable to linear equation solving problems. 
+The linear conjugate gradient(LCG) method is only applicable to linear equation solving problems. 
 It converts linear equations into quadratic functions, 
 so that the problem can be solved iteratively without inverting the coefficient matrix.
 

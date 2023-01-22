@@ -29,7 +29,7 @@ keywords = [
     'ncg-optimizer',
     'pytorch',
     # optimizers
-    'lcm',
+    'lcg',
     'FR',
 ]
 

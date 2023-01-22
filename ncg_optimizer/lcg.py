@@ -3,9 +3,9 @@ from torch.optim.optimizer import Optimizer
 
 from typing import List, Optional
 
-__all__ = ('LCM',)
+__all__ = ('LCG',)
 
-class LCM(Optimizer):
+class LCG(Optimizer):
     def __init__(
         self,
         params,
@@ -16,4 +16,6 @@ class LCM(Optimizer):
         defaults = dict(
             eps=eps,
         )
-        super(LCM, self).__init__(params, defaults)
+        super(LCG, self).__init__(params, defaults)
+
+    def step(self,):
