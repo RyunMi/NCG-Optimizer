@@ -25,6 +25,13 @@ def _read_version():
             'Cannot find version in ncg_optimizer/__init__.py'
         )
 
+keywords = [
+    'ncg-optimizer',
+    'pytorch',
+    # optimizers
+    'lcm',
+    'FR',
+]
 
 setup(
     name='ncg-optimizer',
@@ -36,6 +43,7 @@ setup(
     author='Kerun Mi @ XTU',
     author_email='ryunxiaomi@gmail.com',
     license='Apache 2',
+    keywords=keywords,
     packages=find_packages(exclude=('tests',)),
     install_requires=install_requires,
     classifiers=[
