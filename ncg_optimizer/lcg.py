@@ -1,7 +1,7 @@
 import torch
 from torch.optim.optimizer import Optimizer
 
-from typing import List, Optional
+import copy
 
 __all__ = ('LCG',)
 
@@ -16,17 +16,16 @@ class LCG(Optimizer):
     
     Example:
         >>> import ncg_optimizer as optim
-        >>> optimizer = optim.LCG(model.parameters(), lr=0.1)
+        >>> optimizer = optim.LCG(model.parameters(), eps=1e-8)
         >>> optimizer.zero_grad()
         >>> loss_fn(model(input), target).backward()
         >>> optimizer.step()
-
     """
 
     def __init__(
         self,
         params,
-        eps=1e-10,
+        eps=1e-8,
     ):
         if eps < 0.0:
                 raise ValueError('Invalid epsilon value: {}'.format(eps))
@@ -34,10 +33,6 @@ class LCG(Optimizer):
             eps=eps,
         )
 
-        if isinstance(params, torch.Tensor):
-            raise TypeError("params argument given to the optimizer should be "
-                            "an iterable of Tensors or dicts, but got " +
-                            torch.typename(params))
         super(LCG, self).__init__(params, defaults)
 
 
@@ -62,19 +57,39 @@ class LCG(Optimizer):
             for p in group['params']:
                 if p.grad is None:
                     continue
-                d_p = p.grad
-        
+                
+                grad = p.grad.data
+
+                # Coefficient matrix
+                A = p.grad.grad.data
+
+                state = self.state[p]
+
+                if len(state) == 0:
+                    # Grade of quadratic functions
+                    # i.e. The allowance of the linear equation
+                    state['r'] = copy.deepcopy(grad)
+                    # Negative grade of quadratic functions
+                    state['pb'] = copy.deepcopy(-grad)
+                    # Parameters that make gradient steps
+                    state['beta'] == 0
+                
+                rdotr = torch.dot(state['r'], state['r'])
+                z = torch.dot(A, state['pb'])
+                
+                # Step factor
+                alpha = rdotr / torch.dot(state['pb'], z)
+
+                p = p.add_(-p.grad, alpha)
+
+                state['r'] = p.grad.data
+
+                if state['r'] < group['eps']:
+                    # Stop condition
+                    break
+
+                state['beta'] = torch.dot(state['r'], state['r']) / rdotr
+
+                state['pb'] = -state['r'].add_(-state['pb'], state['beta']) 
+
         return loss
-
-
-def lcg(params,grad):
-    return 
-   
-def _linear_equation(func,params):
-    f_grads = torch.autograd.grad(func, params, create_graph=True)
-    return f_grads
-
-def _get_A(f_grad,params):
-    f_grads2 = torch.autograd.grad(f_grad, params)
-    return f_grads2
-
