@@ -28,7 +28,7 @@ def beale(tensor):
 
 cases = [
 #    (rosenbrock, (1.5, 1.5), (1, 1)),
-    (quadratic, (1.5, 1.5), (0, 0)),
+     (quadratic, (1.5, 1.5), (0, 0)),
 #    (beale, (1.5, 1.5), (3, 0.5)),
 ]
 
