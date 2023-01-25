@@ -39,7 +39,7 @@ def ids(v):
 
 
 optimizers = [
-    (optim.lcg, {'eps': 1e-8}, 500),
+    (optim.lcg, {'eps': 1e-5}, 500),
 ]
 
 
@@ -48,9 +48,10 @@ optimizers = [
 def test_benchmark_function(case, optimizer_config):
     func, initial_state, min_loc = case
     optimizer_class, config, iterations = optimizer_config
-    
     x = torch.Tensor(initial_state).requires_grad_(True)
+    print([x])
     x_min = torch.Tensor(min_loc)
+    print(iterations)
     optimizer = optimizer_class([x], **config)
     for _ in range(iterations):
         optimizer.zero_grad()

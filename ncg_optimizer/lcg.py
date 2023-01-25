@@ -16,7 +16,7 @@ class LCG(Optimizer):
     
     Example:
         >>> import ncg_optimizer as optim
-        >>> optimizer = optim.LCG(model.parameters(), eps=1e-8)
+        >>> optimizer = optim.LCG(model.parameters(), eps=1e-5)
         >>> optimizer.zero_grad()
         >>> loss_fn(model(input), target).backward()
         >>> optimizer.step()
@@ -69,7 +69,7 @@ class LCG(Optimizer):
                     # Negative grade of quadratic functions
                     state['pb'] = copy.deepcopy(-d_p.data)
                     # Coefficient matrix
-                    state['A'] = torch.autograd.grad(d_p, p)
+                    state['A'] = torch.autograd.grad(d_p, p).data
                 
                 if state['r'] < group['eps']:
                     # Stop condition
