@@ -1,0 +1,10 @@
+LICENSE
+README.rst
+setup.py
+ncg_optimizer/__init__.py
+ncg_optimizer/lcg.py
+ncg_optimizer.egg-info/PKG-INFO
+ncg_optimizer.egg-info/SOURCES.txt
+ncg_optimizer.egg-info/dependency_links.txt
+ncg_optimizer.egg-info/requires.txt
+ncg_optimizer.egg-info/top_level.txt

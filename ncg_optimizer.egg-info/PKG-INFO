@@ -1,0 +1,81 @@
+Metadata-Version: 2.1
+Name: ncg-optimizer
+Version: 0.0.1a1
+Summary: Pytorch optimizer based on nonlinear conjugate gradient method
+Home-page: https://github.com/RyunMi/NCG-optimizer
+Author: Kerun Mi @ XTU
+Author-email: ryunxiaomi@gmail.com
+License: Apache 2
+Keywords: ncg-optimizer,pytorch,lcg,FR
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Operating System :: MacOS
+Classifier: Operating System :: Unix
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+
+=============
+NCG-optimizer
+=============
+
+**NCG-optimizer** is a set of optimizer about *nonliear conjugate gradient* in Pytorch.
+
+Install
+=======
+
+::
+
+    $ pip install ncg_optimizer
+
+Example
+=======
+
+.. code-block:: python
+
+    from ncg-optimizer import PRP
+
+    # model = Your Model
+    optimizer = PRP(model.parameters())
+
+Supported Optimizers
+====================
+
+Basic Methods
+-------------
+
+The implementation of all basic methods is based on the book "Nonlinear Conjugate Gradient Method" [#NCGM]_.
+
+.. [#NCGM] Y.H. Dai and Y. Yuan (2000), Nonlinear Conjugate Gradient Methods, Shanghai Scientific and Technical Publishers, Shanghai. (in Chinese)
+
+Linear Conjugate Gradient
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The linear conjugate gradient(LCG) method is only applicable to linear equation solving problems. 
+It converts linear equations into quadratic functions, 
+so that the problem can be solved iteratively without inverting the coefficient matrix.
+
+.. image:: https://raw.githubusercontent.com/RyunMi/NCG-optimizer/master/docs/LCG.png
+    :width: 800px
+
+Fletcher-Reeves
+^^^^^^^^^^^^^^^
+
+Changes
+-------
+
+0.1.0 (2023-01-01)
+------------------
+* Initial release.
+* Added support for LCG, .
