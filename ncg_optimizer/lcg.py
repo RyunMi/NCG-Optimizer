@@ -41,7 +41,7 @@ class LCG(Optimizer):
 
         Arguments:
             closure (callable): A closure that reevaluates the model and
-                returns the loss. Optional for most optimizers.
+            returns the loss. Optional for most optimizers.
 
         .. note::
             Unless otherwise specified, this function should not modify the
