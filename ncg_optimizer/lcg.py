@@ -12,7 +12,7 @@ class LCG(Optimizer):
         params: iterable of parameters to optimize or dicts defining
             parameter groups
         eps: term added to the denominator to improve
-            numerical stability (default: 1e-8)
+            numerical stability (default: 1e-5)
     
     Example:
         >>> import ncg_optimizer as optim
@@ -25,7 +25,7 @@ class LCG(Optimizer):
     def __init__(
         self,
         params,
-        eps=1e-8,
+        eps=1e-5,
     ):
         if eps < 0.0:
                 raise ValueError('Invalid epsilon value: {}'.format(eps))
@@ -60,9 +60,6 @@ class LCG(Optimizer):
                 
                 d_p = p.grad
 
-                # Coefficient matrix
-                A = torch.autograd.functional.hessian(loss, p)
-
                 state = self.state[p]
 
                 if len(state) == 0:
@@ -71,25 +68,28 @@ class LCG(Optimizer):
                     state['r'] = copy.deepcopy(d_p.data)
                     # Negative grade of quadratic functions
                     state['pb'] = copy.deepcopy(-d_p.data)
-                    # Parameters that make gradient steps
-                    state['beta'] == 0
+                    # Coefficient matrix
+                    state['A'] = torch.autograd.grad(d_p, p)
                 
-                rdotr = torch.dot(state['r'], state['r'])
-                z = torch.dot(A, state['pb'])
-                
-                # Step factor
-                alpha = rdotr / torch.dot(state['pb'], z)
-
-                p = p.add_(-d_p, alpha=alpha)
-
-                state['r'] = p.grad.data
-
                 if state['r'] < group['eps']:
                     # Stop condition
                     break
+                
+                r, pb = state['r'], state['pb']
 
-                state['beta'] = torch.dot(state['r'], state['r']) / rdotr
+                rdotr = torch.dot(r, r)
+                z = torch.dot(state['A'], pb)
+                
+                # Step factor
+                alpha = rdotr / torch.dot(pb, z)
 
-                state['pb'] = -state['r'].add_(-state['pb'], state['beta']) 
+                p = p.data.add_(pb, alpha=alpha)
+
+                state['r'] = p.grad.data
+
+                # Parameters that make gradient steps
+                beta = torch.dot(state['r'], state['r']) / rdotr
+
+                state['pb'] = -state['r'].add_(-pb, beta) 
 
         return loss
