@@ -58,19 +58,19 @@ class LCG(Optimizer):
                 if p.grad is None:
                     continue
                 
-                grad = p.grad.data
+                d_p = p.grad
 
                 # Coefficient matrix
-                A = p.grad.grad.data
+                A = torch.autograd.functional.hessian(loss, p)
 
                 state = self.state[p]
 
                 if len(state) == 0:
                     # Grade of quadratic functions
                     # i.e. The allowance of the linear equation
-                    state['r'] = copy.deepcopy(grad)
+                    state['r'] = copy.deepcopy(d_p.data)
                     # Negative grade of quadratic functions
-                    state['pb'] = copy.deepcopy(-grad)
+                    state['pb'] = copy.deepcopy(-d_p.data)
                     # Parameters that make gradient steps
                     state['beta'] == 0
                 
@@ -80,7 +80,7 @@ class LCG(Optimizer):
                 # Step factor
                 alpha = rdotr / torch.dot(state['pb'], z)
 
-                p = p.add_(-p.grad, alpha)
+                p = p.add_(-d_p, alpha=alpha)
 
                 state['r'] = p.grad.data
 
