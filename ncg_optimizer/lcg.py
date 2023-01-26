@@ -60,7 +60,7 @@ class LCG(Optimizer):
                     continue
                 
                 d_p = p.grad
-                print(p)
+
                 n=len(d_p)
 
                 state = self.state[p]

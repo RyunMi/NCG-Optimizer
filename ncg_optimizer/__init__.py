@@ -16,7 +16,7 @@ from .lcg import LCG
 __all__ = (
     'LCG',
 )
-__version__ = '0.0.1b0'
+__version__ = '0.0.1b1'
 
 
 _package_opts = [
