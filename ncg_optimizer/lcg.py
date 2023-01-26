@@ -1,4 +1,5 @@
 import torch
+
 from torch.optim.optimizer import Optimizer
 
 import copy
@@ -59,6 +60,8 @@ class LCG(Optimizer):
                     continue
                 
                 d_p = p.grad
+                print(p)
+                n=len(d_p)
 
                 state = self.state[p]
 
@@ -66,30 +69,39 @@ class LCG(Optimizer):
                     # Grade of quadratic functions
                     # i.e. The allowance of the linear equation
                     state['r'] = copy.deepcopy(d_p.data)
+
                     # Negative grade of quadratic functions
                     state['pb'] = copy.deepcopy(-d_p.data)
+                    
                     # Coefficient matrix
-                    state['A'] = torch.autograd.grad(d_p, p).data
-                
-                if state['r'] < group['eps']:
-                    # Stop condition
-                    break
-                
+                    state['A'] = torch.stack(
+                        [torch.autograd.grad(
+                            d_p[i],
+                            p, 
+                            grad_outputs=torch.ones_like(d_p[i]),
+                            retain_graph=True)[0]
+                        for i in range(0,n)])
+                else:
+                    state['r'] = copy.deepcopy(d_p.data)
+                    
+                    if torch.norm(state['r']) < group['eps']:
+                        # Stop condition
+                        return loss
+                    
+                    # Parameters that make gradient steps
+                    beta = torch.dot(state['r'], state['r']) / state['rdotr']
+
+                    state['pb'] = -state['r'] + beta * state['pb']
+
                 r, pb = state['r'], state['pb']
 
-                rdotr = torch.dot(r, r)
-                z = torch.dot(state['A'], pb)
+                state['rdotr'] = torch.dot(r, r)
                 
+                z = torch.matmul(state['A'], pb)
+
                 # Step factor
-                alpha = rdotr / torch.dot(pb, z)
+                alpha = state['rdotr'] / torch.matmul(pb, z)
 
                 p = p.data.add_(pb, alpha=alpha)
-
-                state['r'] = p.grad.data
-
-                # Parameters that make gradient steps
-                beta = torch.dot(state['r'], state['r']) / rdotr
-
-                state['pb'] = -state['r'].add_(-pb, beta) 
 
         return loss

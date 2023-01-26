@@ -29,7 +29,7 @@ keywords = [
     'ncg-optimizer',
     'pytorch',
     # optimizers
-    'lcg',
+    'LCG',
     'FR',
 ]
 
@@ -40,7 +40,7 @@ setup(
     long_description='\n\n'.join((_read('README.rst'), _read('CHANGES.rst'))),
     long_description_content_type='text/x-rst',
     url='https://github.com/RyunMi/NCG-optimizer',
-    author='Kerun Mi @ XTU',
+    author='Kerun Mi',
     author_email='ryunxiaomi@gmail.com',
     license='Apache 2',
     keywords=keywords,
