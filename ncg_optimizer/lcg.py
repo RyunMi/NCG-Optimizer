@@ -18,9 +18,11 @@ class LCG(Optimizer):
     Example:
         >>> import ncg_optimizer as optim
         >>> optimizer = optim.LCG(model.parameters(), eps=1e-5)
-        >>> optimizer.zero_grad()
-        >>> loss_fn(model(input), target).backward()
-        >>> optimizer.step()
+        >>> def closure():
+        >>>     optimizer.zero_grad()
+        >>>     loss_fn(model(input), target).backward()
+        >>>     return loss_fn
+        >>> optimizer.step(closure)
     """
 
     def __init__(
@@ -70,6 +72,10 @@ class LCG(Optimizer):
                     # i.e. The allowance of the linear equation
                     state['r'] = copy.deepcopy(d_p.data)
 
+                    if torch.norm(state['r']) < group['eps']:
+                        # Stop condition
+                        return loss
+                    
                     # Negative grade of quadratic functions
                     state['pb'] = copy.deepcopy(-d_p.data)
                     

@@ -11,16 +11,6 @@ Install
 
     $ pip install ncg_optimizer
 
-Example
-=======
-
-.. code-block:: python
-
-    from ncg-optimizer import PRP
-
-    # model = Your Model
-    optimizer = PRP(model.parameters())
-
 Supported Optimizers
 ====================
 
@@ -40,6 +30,18 @@ so that the problem can be solved iteratively without inverting the coefficient 
 
 .. image:: https://raw.githubusercontent.com/RyunMi/NCG-optimizer/master/docs/LCG.png
     :width: 800px
+
+.. code-block:: python
+
+        from ncg_optimizer import LCG
+        
+        # model = Your Model
+        optimizer = LCG(model.parameters(), eps=1e-5)
+        def closure():
+            optimizer.zero_grad()
+            loss_fn(model(input), target).backward()
+            return loss_fn
+        optimizer.step(closure)
 
 Fletcher-Reeves
 ^^^^^^^^^^^^^^^
