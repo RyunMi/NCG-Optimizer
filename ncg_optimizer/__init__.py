@@ -2,25 +2,31 @@
 API and usage patterns are the same as `torch.optim`__
 Example
 -------
->>> import torch_optimizer as optim
-# model = ...
->>> optimizer = optim.PRP(model.parameters())
->>> optimizer.step()
+>>> import ncg_optimizer as optim
+>>> optimizer = optim.LCG(model.parameters(), eps=1e-5)
+>>> def closure():
+>>>     optimizer.zero_grad()
+>>>     loss_fn(model(input), target).backward()
+>>>     return loss_fn
+>>> optimizer.step(closure)
 """
 from typing import Dict, List, Type
 
 from torch.optim.optimizer import Optimizer
 
 from .lcg import LCG
+from .fr import FR
 
 __all__ = (
     'LCG',
+    'FR',
 )
 __version__ = '0.0.1b1'
 
 
 _package_opts = [
-    LCG
+    LCG,
+    FR
 ]  # type: List[Type[Optimizer]]
 
 

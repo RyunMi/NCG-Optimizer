@@ -26,7 +26,7 @@ class FR(Optimizer):
                 'General_Wolfe': uses General_Wolfe bracketing line search
     
     Example:
-         >>> import ncg_optimizer as optim
+        >>> import ncg_optimizer as optim
         >>> optimizer = optim.FR(model.parameters(), eps = 1e-5, line_search = 'Armijo',)
         >>> def closure():
         >>>     optimizer.zero_grad()
