@@ -31,7 +31,7 @@ class LCG(Optimizer):
         eps=1e-5,
     ):
         if eps < 0.0:
-                raise ValueError('Invalid epsilon value: {}'.format(eps))
+            raise ValueError('Invalid epsilon value: {}'.format(eps))
         defaults = dict(
             eps=eps,
         )
@@ -108,6 +108,6 @@ class LCG(Optimizer):
                 # Step factor
                 alpha = state['rdotr'] / torch.matmul(pb, z)
 
-                p = p.data.add_(pb, alpha=alpha)
+                p.data.add_(pb, alpha=alpha)
 
         return loss

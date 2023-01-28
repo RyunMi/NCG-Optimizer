@@ -1,7 +1,18 @@
-def Armijo():
+def Strong_Wolfe(func, p):
+    F_new = func()
+    p.data = p.data + 1
+    print(p)
+    print(func())
+    print(F_new)
+    p.data = p.data - 1
 
-def Strong_Wolfe():
-
+    alpha = 42
+    return alpha
 def General_Wolfe():
 
-def Factor():
+    alpha = 42
+    return alpha
+
+#def Armijo():
+
+#def Factor():

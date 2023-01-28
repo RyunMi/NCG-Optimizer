@@ -2,11 +2,12 @@ import torch
 
 from torch.optim.optimizer import Optimizer
 
-from Line_Search import Armijo
 from Line_Search import Strong_Wolfe
 from Line_Search import General_Wolfe
 
 import copy
+
+import warnings
 
 __all__ = ('FR',)
 
@@ -21,13 +22,16 @@ class FR(Optimizer):
         line_search: designates line search to use (default: 'Armijo')
             Options:
                 'None': uses exact line search(requires the loss is quadratic)
-                'Armijo': uses Armijo backtracking line search
                 'Strong_Wolfe': uses Strong_Wolfe bracketing line search
                 'General_Wolfe': uses General_Wolfe bracketing line search
+        c1: sufficient decrease constant in (0, 1) (default: 1e-4)
+        c2: curvature condition constant in (0, 1) (default: 0.9)
     
     Example:
         >>> import ncg_optimizer as optim
-        >>> optimizer = optim.FR(model.parameters(), eps = 1e-5, line_search = 'Armijo',)
+        >>> optimizer = optim.FR(
+        >>>     model.parameters(), eps = 1e-5, 
+        >>>     line_search = 'Strong_Wolfe', c1 = 1e-4, c2 = 0.9)
         >>> def closure():
         >>>     optimizer.zero_grad()
         >>>     loss_fn(model(input), target).backward()
@@ -38,23 +42,34 @@ class FR(Optimizer):
     def __init__(
         self,
         params,
-        eps=1e-5,
-        line_search='Armijo'
+        eps = 1e-5,
+        line_search = 'Strong_Wolfe',
+        c1 = 1e-4,
+        c2 = 0.9,
     ):
         if eps < 0.0:
-                raise ValueError('Invalid epsilon value: {}'.format(eps))
+            raise ValueError('Invalid epsilon value: {}'.format(eps))
 
-        if line_search not in [ 
-            'Armijo', 
+        if line_search not in [
             'Strong_Wolfe', 
             'General_Wolfe',
             'None',
             ]:
             raise ValueError("Invalid line search: {}".format(line_search))
-        
+        elif line_search == 'None':
+            warnings.warn("Unless loss is a quadratic function, this is not recommended")
+
+        if not (0.0 < c1 < 0.5):
+            raise ValueError('Invalid epsilon value: {}'.format(c1))
+
+        if not (c1 < c2 < 1.0):
+            raise ValueError('Invalid epsilon value: {}'.format(c2))
+
         defaults = dict(
             eps=eps,
             line_search=line_search,
+            c1 = c1,
+            c2 = c2,
         )
 
         super(FR, self).__init__(params, defaults)
@@ -67,6 +82,7 @@ class FR(Optimizer):
                             grad_outputs=torch.ones_like(d_p[i]),
                             retain_graph=True)[0]
                         for i in range(0, len(d_p))])
+        
         return A
 
     def Exact(A, d_p, d):
@@ -112,7 +128,7 @@ class FR(Optimizer):
                     state['d'] = copy.deepcopy(-d_p.data)
 
                     # Determine whether to calculate A
-                    state['index'] == 1
+                    state['index'] = 1
                 else:
                     state['beta'] = torch.norm(d_p.data) / torch.norm(state['g'])
 
@@ -120,7 +136,7 @@ class FR(Optimizer):
                     
                     state['d'] = -state['g'] + state['beta'] * state['d']
 
-                    state['index'] == 0
+                    state['index'] = 0
 
                 line_search = group['line_search']
 
@@ -131,15 +147,12 @@ class FR(Optimizer):
                     else:
                         alpha = FR.Exact(state['A'], d_p, state['d'])
 
-                elif line_search == 'Armijo':
-                    alpha = Armijo()
-
                 elif line_search == 'Strong_Wolfe':
                     alpha = Strong_Wolfe()
 
                 elif line_search == 'General_Wolfe':
                     alpha = General_Wolfe()
 
-                p = p.data.add_(state['d'], alpha=alpha)
+                p.data.add_(state['d'], alpha=alpha)
 
         return loss
