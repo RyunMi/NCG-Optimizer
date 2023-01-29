@@ -4,6 +4,7 @@ from torch.optim.optimizer import Optimizer
 
 from Line_Search import Strong_Wolfe
 from Line_Search import General_Wolfe
+from Line_Search import General_Armijo
 
 import copy
 
@@ -18,20 +19,25 @@ class FR(Optimizer):
         params: iterable of parameters to optimize or dicts defining
             parameter groups
         eps: term added to the denominator to improve
-            numerical stability (default: 1e-5)
-        line_search: designates line search to use (default: 'Armijo')
+            numerical stability (default: 1e-3)
+        line_search: designates line search to use (default: 'Strong_Wolfe')
             Options:
                 'None': uses exact line search(requires the loss is quadratic)
                 'Strong_Wolfe': uses Strong_Wolfe bracketing line search
                 'General_Wolfe': uses General_Wolfe bracketing line search
+                'General_Armijo': uses General_Armijo bracketing line search
         c1: sufficient decrease constant in (0, 1) (default: 1e-4)
-        c2: curvature condition constant in (0, 1) (default: 0.9)
+        c2: curvature condition constant in (0, 1) (default: 0.1)
+        sigma: initial step length of Backtracking Line Search (default: 1)
+        rho: contraction factor of Backtracking Line Search (default: 0.5)
+        eta: secondary adjustment factor of Wolfe Backtracking Line Search (default: 0.5)
     
     Example:
         >>> import ncg_optimizer as optim
         >>> optimizer = optim.FR(
-        >>>     model.parameters(), eps = 1e-5, 
-        >>>     line_search = 'Strong_Wolfe', c1 = 1e-4, c2 = 0.9)
+        >>>     model.parameters(), eps = 1e-3, 
+        >>>     line_search = 'Strong_Wolfe', c1 = 1e-4, c2 = 0.1,
+        >>>     sigma = 1, rho = 0.5, eta = 0.5)
         >>> def closure():
         >>>     optimizer.zero_grad()
         >>>     loss_fn(model(input), target).backward()
@@ -42,10 +48,13 @@ class FR(Optimizer):
     def __init__(
         self,
         params,
-        eps = 1e-5,
+        eps = 1e-3,
         line_search = 'Strong_Wolfe',
         c1 = 1e-4,
-        c2 = 0.9,
+        c2 = 0.1,
+        sigma = 1,
+        rho = 0.5,
+        eta = 0.5
     ):
         if eps < 0.0:
             raise ValueError('Invalid epsilon value: {}'.format(eps))
@@ -53,23 +62,36 @@ class FR(Optimizer):
         if line_search not in [
             'Strong_Wolfe', 
             'General_Wolfe',
+            'General_Armijo',
             'None',
             ]:
             raise ValueError("Invalid line search: {}".format(line_search))
         elif line_search == 'None':
-            warnings.warn("Unless loss is a quadratic function, this is not recommended")
+            warnings.warn("Unless loss is a quadratic function, this is not correct")
 
         if not (0.0 < c1 < 0.5):
-            raise ValueError('Invalid epsilon value: {}'.format(c1))
+            raise ValueError('Invalid c1 value: {}'.format(c1))
 
         if not (c1 < c2 < 1.0):
-            raise ValueError('Invalid epsilon value: {}'.format(c2))
+            raise ValueError('Invalid c2 value: {}'.format(c2))
+
+        if sigma < 0.0:
+            raise ValueError('Invalid sigma value: {}'.format(sigma))
+
+        if not (0.0 < rho < 1.0):
+            raise ValueError('Invalid rho value: {}'.format(rho))
+
+        if not (0.0 < eta < 1.0):
+            raise ValueError('Invalid eta value: {}'.format(eta))
 
         defaults = dict(
             eps=eps,
             line_search=line_search,
             c1 = c1,
             c2 = c2,
+            sigma = sigma,
+            rho = rho,
+            eta = eta
         )
 
         super(FR, self).__init__(params, defaults)
@@ -130,6 +152,7 @@ class FR(Optimizer):
                     # Determine whether to calculate A
                     state['index'] = 1
                 else:
+                    # Parameters that make gradient steps
                     state['beta'] = torch.norm(d_p.data) / torch.norm(state['g'])
 
                     state['g'] = copy.deepcopy(d_p.data)
@@ -152,6 +175,9 @@ class FR(Optimizer):
 
                 elif line_search == 'General_Wolfe':
                     alpha = General_Wolfe()
+                
+                elif line_search == 'General_Armijo':
+                    alpha = General_Armijo()
 
                 p.data.add_(state['d'], alpha=alpha)
 
