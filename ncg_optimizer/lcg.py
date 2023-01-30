@@ -91,7 +91,6 @@ class LCG(Optimizer):
                     state['r'] = copy.deepcopy(d_p.data)
                     
                     if torch.norm(state['r']) < group['eps']:
-                        # Stop condition
                         return loss
                     
                     # Parameters that make gradient steps

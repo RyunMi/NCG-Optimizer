@@ -2,6 +2,8 @@ import torch
 
 from torch.optim.optimizer import Optimizer
 
+from Line_Search import Armijo
+from Line_Search import Wolfe
 from Line_Search import Strong_Wolfe
 from Line_Search import General_Wolfe
 from Line_Search import General_Armijo
@@ -20,12 +22,14 @@ class FR(Optimizer):
             parameter groups
         eps: term added to the denominator to improve
             numerical stability (default: 1e-3)
-        line_search: designates line search to use (default: 'Strong_Wolfe')
+        line_search: designates line search to use (default: 'Armijo')
             Options:
                 'None': uses exact line search(requires the loss is quadratic)
-                'Strong_Wolfe': uses Strong_Wolfe bracketing line search
-                'General_Wolfe': uses General_Wolfe bracketing line search
-                'General_Armijo': uses General_Armijo bracketing line search
+                'Armijo': uses Armijo line search
+                'Wolfe': uses Wolfe line search
+                'Strong_Wolfe': uses Strong_Wolfe line search
+                'General_Wolfe': uses General_Wolfe line search
+                'General_Armijo': uses General_Armijo line search
         c1: sufficient decrease constant in (0, 1) (default: 1e-4)
         c2: curvature condition constant in (0, 1) (default: 0.1)
         lr: initial step length of Line Search (default: 1)
@@ -37,7 +41,7 @@ class FR(Optimizer):
         >>> import ncg_optimizer as optim
         >>> optimizer = optim.FR(
         >>>     model.parameters(), eps = 1e-3, 
-        >>>     line_search = 'Strong_Wolfe', c1 = 1e-4, c2 = 0.1,
+        >>>     line_search = 'Armijo', c1 = 1e-4, c2 = 0.1,
         >>>     sigma = 1, rho = 0.5, eta = 0.5)
         >>> def closure():
         >>>     optimizer.zero_grad()
@@ -50,7 +54,7 @@ class FR(Optimizer):
         self,
         params,
         eps = 1e-3,
-        line_search = 'Strong_Wolfe',
+        line_search = 'Armijo',
         c1 = 1e-4,
         c2 = 0.1,
         lr = 1,
@@ -62,6 +66,8 @@ class FR(Optimizer):
             raise ValueError('Invalid epsilon value: {}'.format(eps))
 
         if line_search not in [
+            'Armijo',
+            'Wolfe',
             'Strong_Wolfe', 
             'General_Wolfe',
             'General_Armijo',
@@ -152,6 +158,10 @@ class FR(Optimizer):
                     # Grade of quadratic functions
                     state['g'] = copy.deepcopy(d_p.data)
 
+                    if torch.norm(state['g']) < group['eps']:
+                        # Stop condition
+                        return loss
+
                     # Negative grade of loss
                     state['d'] = copy.deepcopy(-d_p.data)
 
@@ -162,12 +172,23 @@ class FR(Optimizer):
                     state['beta'] = torch.norm(d_p.data) / torch.norm(state['g'])
 
                     state['g'] = copy.deepcopy(d_p.data)
+
+                    if torch.norm(state['g']) < group['eps']:
+                        return loss
                     
                     state['d'] = -state['g'] + state['beta'] * state['d']
 
                     state['index'] = False
 
                 line_search = group['line_search']
+
+                lr = group['lr']
+
+                rho = group['rho']
+
+                c1 = group['c1']
+
+                max_ls = group['max_ls']
 
                 if line_search == 'None':
                     if state['index']:
@@ -176,6 +197,12 @@ class FR(Optimizer):
                     else:
                         alpha = FR.Exact(state['A'], d_p, state['d'])
 
+                elif line_search == 'Armijo':
+                    alpha = Armijo(closure, p, state['g'], state['d'], lr, rho, c1, max_ls)
+
+                elif line_search == 'Wolfe':
+                    alpha = Wolfe()
+                
                 elif line_search == 'Strong_Wolfe':
                     alpha = Strong_Wolfe()
 
