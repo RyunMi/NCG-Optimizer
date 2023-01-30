@@ -19,8 +19,6 @@ Basic Methods
 
 The theoretical analysis and implementation of all basic methods is based on the "Nonlinear Conjugate Gradient Method" [#NCGM]_ , "Numerical Optimization" ([#NO1]_ [#NO2]_) and "Conjugate gradient algorithms in nonconvex optimization"[#CGNO]_.
 
-In addition, **NCG-optimizer** also involves related stochastic [#SCG]_ and mini-batch [#CGVR]_ tricks.
-
 Linear Conjugate Gradient
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -52,5 +50,3 @@ References
 .. [#NO1] Nocedal J, Wright S J. Line search methods[J]. Numerical optimization, 2006: 30-65.
 .. [#NO2] Nocedal J, Wright S J. Conjugate gradient methods[J]. Numerical optimization, 2006: 101-134. 
 .. [#CGNO] Pytlak R. Conjugate gradient algorithms in nonconvex optimization[M]. Springer Science & Business Media, 2008.
-.. [#SCG] Schraudolph N N, Graepel T. Towards stochastic conjugate gradient methods[C]//Proceedings of the 9th International Conference on Neural Information Processing, 2002. ICONIP'02. IEEE, 2002, 2: 853-856.
-.. [#CGVR] Jin X B, Zhang X Y, Huang K, et al. Stochastic conjugate gradient algorithm with variance reduction[J]. IEEE transactions on neural networks and learning systems, 2018, 30(5): 1360-1369.
