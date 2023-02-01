@@ -76,7 +76,7 @@ class LCG(Optimizer):
                         # Stop condition
                         return loss
                     
-                    # Negative grade of quadratic functions
+                    # Direction vector
                     state['pb'] = copy.deepcopy(-d_p.data)
                     
                     # Coefficient matrix

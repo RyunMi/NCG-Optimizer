@@ -5,8 +5,6 @@ from torch.optim.optimizer import Optimizer
 from Line_Search import Armijo
 from Line_Search import Wolfe
 from Line_Search import Strong_Wolfe
-from Line_Search import General_Wolfe
-from Line_Search import General_Armijo
 
 import copy
 
@@ -28,21 +26,20 @@ class FR(Optimizer):
                 'Armijo': uses Armijo line search
                 'Wolfe': uses Wolfe line search
                 'Strong_Wolfe': uses Strong_Wolfe line search
-                'General_Wolfe': uses General_Wolfe line search
-                'General_Armijo': uses General_Armijo line search
         c1: sufficient decrease constant in (0, 1) (default: 1e-4)
         c2: curvature condition constant in (0, 1) (default: 0.1)
         lr: initial step length of Line Search (default: 1)
         rho: contraction factor of Line Search (default: 0.5)
-        eta: secondary adjustment factor of Wolfe Line Search (default: 0.5)
-        'max_ls': maximum number of line search steps permitted (default: 10)
+        eta: adjustment factor of Wolfe Line Search's step (default: 5)
+        amax: maximum step length of Strong Wolfe Line Search (default: 0.6)
+        max_ls: maximum number of line search steps permitted (default: 10)
     
     Example:
         >>> import ncg_optimizer as optim
         >>> optimizer = optim.FR(
         >>>     model.parameters(), eps = 1e-3, 
-        >>>     line_search = 'Armijo', c1 = 1e-4, c2 = 0.1,
-        >>>     sigma = 1, rho = 0.5, eta = 0.5)
+        >>>     line_search = 'Armijo', c1 = 1e-4, c2 = 0.4,
+        >>>     lr = 1, rho = 0.5, eta = 0.5, amax = 0.6, max_ls = 10)
         >>> def closure():
         >>>     optimizer.zero_grad()
         >>>     loss_fn(model(input), target).backward()
@@ -56,11 +53,12 @@ class FR(Optimizer):
         eps = 1e-3,
         line_search = 'Armijo',
         c1 = 1e-4,
-        c2 = 0.1,
+        c2 = 0.4,
         lr = 1,
         rho = 0.5,
-        eta = 0.5,
-        max_ls = 10
+        eta = 5,
+        amax = 0.6,
+        max_ls = 10,
     ):
         if eps < 0.0:
             raise ValueError('Invalid epsilon value: {}'.format(eps))
@@ -69,8 +67,6 @@ class FR(Optimizer):
             'Armijo',
             'Wolfe',
             'Strong_Wolfe', 
-            'General_Wolfe',
-            'General_Armijo',
             'None',
             ]:
             raise ValueError("Invalid line search: {}".format(line_search))
@@ -89,10 +85,13 @@ class FR(Optimizer):
         if not (0.0 < rho < 1.0):
             raise ValueError('Invalid rho value: {}'.format(rho))
 
-        if not (0.0 < eta < 1.0):
+        if not (1.0 < eta):
             raise ValueError('Invalid eta value: {}'.format(eta))
         
-        if max_ls%1!=0 or max_ls <= 0:
+        if not (0.0 < amax):
+            raise ValueError('Invalid amax value: {}'.format(amax))
+
+        if max_ls % 1 != 0 or max_ls <= 0:
             raise ValueError('Invalid max_ls value: {}'.format(max_ls))
 
         defaults = dict(
@@ -103,7 +102,8 @@ class FR(Optimizer):
             lr = lr,
             rho = rho,
             eta = eta,
-            max_ls = max_ls
+            amax = amax,
+            max_ls = max_ls,
         )
 
         super(FR, self).__init__(params, defaults)
@@ -162,11 +162,14 @@ class FR(Optimizer):
                         # Stop condition
                         return loss
 
-                    # Negative grade of loss
+                    # Direction vector
                     state['d'] = copy.deepcopy(-d_p.data)
 
                     # Determine whether to calculate A
                     state['index'] = True
+                    
+                    # Step of Conjugate Gradient
+                    state['step'] = 0
                 else:
                     # Parameters that make gradient steps
                     state['beta'] = torch.norm(d_p.data) / torch.norm(state['g'])
@@ -181,13 +184,12 @@ class FR(Optimizer):
                     state['index'] = False
 
                 line_search = group['line_search']
-
-                lr = group['lr']
-
-                rho = group['rho']
-
                 c1 = group['c1']
-
+                c2 = group['c2']
+                lr = group['lr']
+                rho = group['rho']
+                eta = group['eta']
+                amax = group['amax']
                 max_ls = group['max_ls']
 
                 if line_search == 'None':
@@ -201,17 +203,13 @@ class FR(Optimizer):
                     alpha = Armijo(closure, p, state['g'], state['d'], lr, rho, c1, max_ls)
 
                 elif line_search == 'Wolfe':
-                    alpha = Wolfe()
+                    k = state['step']
+                    alpha = Wolfe(closure, p, d_p, state['d'], lr, c1, c2, eta, k, max_ls)
+                    state['step'] = state['step'] + 1
                 
                 elif line_search == 'Strong_Wolfe':
-                    alpha = Strong_Wolfe()
-
-                elif line_search == 'General_Wolfe':
-                    alpha = General_Wolfe()
+                    alpha = Strong_Wolfe(closure, p, d_p, state['d'], lr, c1, c2, amax, max_ls)
                 
-                elif line_search == 'General_Armijo':
-                    alpha = General_Armijo()
-
                 p.data.add_(state['d'], alpha=alpha)
 
         return loss
