@@ -137,7 +137,6 @@ def Strong_Wolfe(func, x, d, lr, c1, c2, amax, iter):
         if float(func()) > F_o + a1 * c1 * torch.dot(grad, d) or (float(func()) >= F_n and i > 1):
             x.data = x.data - a1 * d
             alpha = zoom(func(), x, d, c1, c2, a0, a1, iter)
-            #x.data = x.data + a1 * d
             return alpha
         else:
             if abs(torch.dot(d_p, d)) <= -c2 * torch.dot(grad, d):
@@ -147,7 +146,6 @@ def Strong_Wolfe(func, x, d, lr, c1, c2, amax, iter):
                 if torch.dot(d_p, d) >= 0:
                     x.data = x.data - a1 * d
                     alpha = zoom(func(), x, d, c1, c2, a1, a0, iter)
-                    #x.data = x.data + a1 * d
                     return alpha
                 else:
                     x.data = x.data - a1 * d
@@ -171,12 +169,11 @@ def zoom(f, x, d, c1, c2, a0, a1, t):
         print(f)
         F_n = float(f)
         x.data = x.data - a0 * d
-        print(f)
 
         x.data = x.data + beta * d
         p = torch.autograd.grad(f, x, retain_graph=True, create_graph=True)[0]
 
-        if float(f) > F_o + beta * c1 * torch.dot(grad, d) or float(f) >= F_n:
+        if float(f) > F_o + beta * c1 * torch.dot(grad,d) or float(f) >= F_n:
             a1 = beta
             x.data = x.data - beta * d
             continue
@@ -187,8 +184,7 @@ def zoom(f, x, d, c1, c2, a0, a1, t):
             else:
                 if (torch.dot(p,d)) * (a1 - a0) >= 0:
                     a1 = a0
-            a0 = a1
-
+            a0 = beta
         x.data = x.data - beta * d
     
     return beta
