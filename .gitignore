@@ -1,2 +1,5 @@
 # RST+Sphinx
 .vscode
+
+# python
+__pycache__

@@ -109,6 +109,7 @@ class FR(Optimizer):
         super(FR, self).__init__(params, defaults)
 
     def _get_A(p, d_p):
+        print(d_p)
         A = torch.stack(
                         [torch.autograd.grad(
                             d_p[i],
@@ -154,6 +155,15 @@ class FR(Optimizer):
 
                 state = self.state[p]
 
+                line_search = group['line_search']
+                c1 = group['c1']
+                c2 = group['c2']
+                lr = group['lr']
+                rho = group['rho']
+                eta = group['eta']
+                amax = group['amax']
+                max_ls = group['max_ls']
+
                 if len(state) == 0:
                     # Grade of quadratic functions
                     state['g'] = copy.deepcopy(d_p.data)
@@ -170,6 +180,8 @@ class FR(Optimizer):
                     
                     # Step of Conjugate Gradient
                     state['step'] = 0
+
+                    state['alpha'] = lr
                 else:
                     # Parameters that make gradient steps
                     state['beta'] = torch.norm(d_p.data) / torch.norm(state['g'])
@@ -183,33 +195,23 @@ class FR(Optimizer):
 
                     state['index'] = False
 
-                line_search = group['line_search']
-                c1 = group['c1']
-                c2 = group['c2']
-                lr = group['lr']
-                rho = group['rho']
-                eta = group['eta']
-                amax = group['amax']
-                max_ls = group['max_ls']
-
                 if line_search == 'None':
                     if state['index']:
                         state['A'] = FR._get_A(p, d_p)
-                        alpha = FR.Exact(state['A'], d_p, state['d'])
+                        state['alpha'] = FR.Exact(state['A'], d_p, state['d'])
                     else:
-                        alpha = FR.Exact(state['A'], d_p, state['d'])
+                        state['alpha'] = FR.Exact(state['A'], d_p, state['d'])
 
                 elif line_search == 'Armijo':
-                    alpha = Armijo(closure, p, state['g'], state['d'], lr, rho, c1, max_ls)
+                    state['alpha'] = Armijo(closure, p, state['g'], state['d'], state['alpha'], rho, c1, max_ls)
 
                 elif line_search == 'Wolfe':
-                    k = state['step']
-                    alpha = Wolfe(closure, p, d_p, state['d'], lr, c1, c2, eta, k, max_ls)
+                    state['alpha'] = Wolfe(closure, p, state['d'], state['alpha'], c1, c2, eta, state['step'], max_ls)
                     state['step'] = state['step'] + 1
                 
                 elif line_search == 'Strong_Wolfe':
-                    alpha = Strong_Wolfe(closure, p, d_p, state['d'], lr, c1, c2, amax, max_ls)
+                    state['alpha'] = Strong_Wolfe(closure, p, state['d'], lr, c1, c2, amax, max_ls)
                 
-                p.data.add_(state['d'], alpha=alpha)
+                p.data.add_(state['d'], alpha=state['alpha'])
 
         return loss
