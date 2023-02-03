@@ -31,6 +31,9 @@ keywords = [
     # optimizers
     'LCG',
     'FR',
+    # line search
+    'Armijo',
+    'Wolfe',
 ]
 
 setup(

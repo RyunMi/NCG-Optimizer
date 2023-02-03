@@ -21,7 +21,7 @@ __all__ = (
     'LCG',
     'FR',
 )
-__version__ = '0.0.1b1'
+__version__ = '0.0.2'
 
 
 _package_opts = [

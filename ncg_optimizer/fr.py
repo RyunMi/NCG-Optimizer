@@ -4,7 +4,6 @@ from torch.optim.optimizer import Optimizer
 
 from Line_Search import Armijo
 from Line_Search import Wolfe
-from Line_Search import Strong_Wolfe
 
 import copy
 
@@ -25,13 +24,11 @@ class FR(Optimizer):
                 'None': uses exact line search(requires the loss is quadratic)
                 'Armijo': uses Armijo line search
                 'Wolfe': uses Wolfe line search
-                'Strong_Wolfe': uses Strong_Wolfe line search
         c1: sufficient decrease constant in (0, 1) (default: 1e-4)
         c2: curvature condition constant in (0, 1) (default: 0.1)
         lr: initial step length of Line Search (default: 1)
         rho: contraction factor of Line Search (default: 0.5)
         eta: adjustment factor of Wolfe Line Search's step (default: 5)
-        amax: maximum step length of Strong Wolfe Line Search (default: 0.6)
         max_ls: maximum number of line search steps permitted (default: 10)
     
     Example:
@@ -39,7 +36,7 @@ class FR(Optimizer):
         >>> optimizer = optim.FR(
         >>>     model.parameters(), eps = 1e-3, 
         >>>     line_search = 'Armijo', c1 = 1e-4, c2 = 0.4,
-        >>>     lr = 1, rho = 0.5, eta = 0.5, amax = 0.6, max_ls = 10)
+        >>>     lr = 1, rho = 0.5, eta = 5,  max_ls = 10)
         >>> def closure():
         >>>     optimizer.zero_grad()
         >>>     loss_fn(model(input), target).backward()
@@ -57,7 +54,6 @@ class FR(Optimizer):
         lr = 1,
         rho = 0.5,
         eta = 5,
-        amax = 0.6,
         max_ls = 10,
     ):
         if eps < 0.0:
@@ -65,8 +61,7 @@ class FR(Optimizer):
 
         if line_search not in [
             'Armijo',
-            'Wolfe',
-            'Strong_Wolfe', 
+            'Wolfe', 
             'None',
             ]:
             raise ValueError("Invalid line search: {}".format(line_search))
@@ -87,9 +82,6 @@ class FR(Optimizer):
 
         if not (1.0 < eta):
             raise ValueError('Invalid eta value: {}'.format(eta))
-        
-        if not (0.0 < amax):
-            raise ValueError('Invalid amax value: {}'.format(amax))
 
         if max_ls % 1 != 0 or max_ls <= 0:
             raise ValueError('Invalid max_ls value: {}'.format(max_ls))
@@ -102,7 +94,6 @@ class FR(Optimizer):
             lr = lr,
             rho = rho,
             eta = eta,
-            amax = amax,
             max_ls = max_ls,
         )
 
@@ -150,7 +141,7 @@ class FR(Optimizer):
             for p in group['params']:
                 if p.grad is None:
                     continue
-                
+
                 d_p = p.grad
 
                 state = self.state[p]
@@ -161,7 +152,6 @@ class FR(Optimizer):
                 lr = group['lr']
                 rho = group['rho']
                 eta = group['eta']
-                amax = group['amax']
                 max_ls = group['max_ls']
 
                 if len(state) == 0:
@@ -181,6 +171,7 @@ class FR(Optimizer):
                     # Step of Conjugate Gradient
                     state['step'] = 0
 
+                    # initialized step length
                     state['alpha'] = lr
                 else:
                     # Parameters that make gradient steps
@@ -208,9 +199,6 @@ class FR(Optimizer):
                 elif line_search == 'Wolfe':
                     state['alpha'] = Wolfe(closure, p, state['d'], state['alpha'], c1, c2, eta, state['step'], max_ls)
                     state['step'] = state['step'] + 1
-                
-                elif line_search == 'Strong_Wolfe':
-                    state['alpha'] = Strong_Wolfe(closure, p, state['d'], lr, c1, c2, amax, max_ls)
                 
                 p.data.add_(state['d'], alpha=state['alpha'])
 
