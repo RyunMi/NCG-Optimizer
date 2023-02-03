@@ -105,4 +105,3 @@ def Wolfe(func, x, d, lr, c1, c2, eta, k, iter):
                 return float(alpha)
 
     return float(alpha)
-

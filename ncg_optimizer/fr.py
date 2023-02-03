@@ -1,5 +1,8 @@
 import torch
 
+import sys
+sys.path.append(r'../ncg_optimizer') 
+
 from torch.optim.optimizer import Optimizer
 
 from Line_Search import Armijo
