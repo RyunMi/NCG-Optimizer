@@ -12,10 +12,10 @@ import copy
 
 import warnings
 
-__all__ = ('FR',)
+__all__ = ('HZ',)
 
-class FR(Optimizer):
-    r"""Implements Fletcher-Reeves Conjugate Gradient.
+class HZ(Optimizer):
+    r"""Implements Hager-Zhang Conjugate Gradient.
 
     Arguments:
         params: iterable of parameters to optimize or dicts defining
@@ -36,7 +36,7 @@ class FR(Optimizer):
     
     Example:
         >>> import ncg_optimizer as optim
-        >>> optimizer = optim.FR(
+        >>> optimizer = optim.HZ(
         >>>     model.parameters(), eps = 1e-3, 
         >>>     line_search = 'Armijo', c1 = 1e-4, c2 = 0.4,
         >>>     lr = 1, rho = 0.5, eta = 5,  max_ls = 10)
@@ -100,7 +100,7 @@ class FR(Optimizer):
             max_ls = max_ls,
         )
 
-        super(FR, self).__init__(params, defaults)
+        super(HZ, self).__init__(params, defaults)
 
     def _get_A(p, d_p):
         print(d_p)
@@ -178,7 +178,10 @@ class FR(Optimizer):
                     state['alpha'] = lr
                 else:
                     # Parameters that make gradient steps
-                    state['beta'] = torch.norm(d_p.data) / torch.norm(state['g'])
+                    Q = d_p.data - state['g']
+                    M = Q - 2 *  torch.norm(Q) / torch.dot(state['d'].reshape(-1), Q.reshape(-1)) * state['d']
+                    N = d_p.data / torch.dot(state['d'].reshape(-1), Q.reshape(-1))
+                    state['beta'] = torch.dot(M.reshape(-1), N.reshape(-1))
 
                     state['g'] = copy.deepcopy(d_p.data)
 
@@ -191,10 +194,10 @@ class FR(Optimizer):
 
                 if line_search == 'None':
                     if state['index']:
-                        state['A'] = FR._get_A(p, d_p)
-                        state['alpha'] = FR.Exact(state['A'], d_p, state['d'])
+                        state['A'] = HZ._get_A(p, d_p)
+                        state['alpha'] = HZ.Exact(state['A'], d_p, state['d'])
                     else:
-                        state['alpha'] = FR.Exact(state['A'], d_p, state['d'])
+                        state['alpha'] = HZ.Exact(state['A'], d_p, state['d'])
 
                 elif line_search == 'Armijo':
                     state['alpha'] = Armijo(closure, p, state['g'], state['d'], state['alpha'], rho, c1, max_ls)

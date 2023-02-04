@@ -72,8 +72,9 @@ def Wolfe(func, x, d, lr, c1, c2, eta, k, iter):
     for _ in range(iter):
         r = alpha
         x.data = x.data + r * d
+        
         d_p = float(torch.norm(torch.autograd.grad(func(), x, retain_graph=True, create_graph=True)[0]))
-
+        
         if not (float(func()) <= F_o + min(m, n)):
             b = alpha
             beta_b = float(func())
@@ -89,7 +90,7 @@ def Wolfe(func, x, d, lr, c1, c2, eta, k, iter):
                 if b == pow(10, 5):
                     a = alpha
                     beta_a = float(func())
-                    beta_aa = float(d_p.data)
+                    beta_aa = d_p
                     alpha = eta * alpha
                     x.data = x.data - r * d
                     continue

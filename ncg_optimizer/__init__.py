@@ -3,7 +3,10 @@ API and usage patterns are the same as `torch.optim`__
 Example
 -------
 >>> import ncg_optimizer as optim
->>> optimizer = optim.LCG(model.parameters(), eps=1e-5)
+>>> optimizer = optim.PRP(
+>>>     model.parameters(), eps = 1e-3, 
+>>>     line_search = 'Armijo', c1 = 1e-4, c2 = 0.4,
+>>>     lr = 1, rho = 0.5, eta = 5,  max_ls = 10)
 >>> def closure():
 >>>     optimizer.zero_grad()
 >>>     loss_fn(model(input), target).backward()
@@ -16,17 +19,38 @@ from torch.optim.optimizer import Optimizer
 
 from .lcg import LCG
 from .fr import FR
+from .prp import PRP
+from .hs import HS
+from .cd import CD
+from .dy import DY
+from .ls import LS
+from .hz import HZ
+from .hs_dy import HS_DY
 
 __all__ = (
     'LCG',
     'FR',
+    'PRP',
+    'HS',
+    'CD',
+    'DY',
+    'LS',
+    'HZ',
+    'HS_DY'
 )
-__version__ = '0.0.2b'
+__version__ = '0.0.3'
 
 
 _package_opts = [
     LCG,
-    FR
+    FR,
+    PRP,
+    HS,
+    CD,
+    DY,
+    LS,
+    HZ,
+    HS_DY,
 ]  # type: List[Type[Optimizer]]
 
 

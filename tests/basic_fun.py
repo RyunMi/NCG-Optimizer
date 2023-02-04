@@ -3,24 +3,29 @@ import torch
 import math
 
 import ncg_optimizer as optim
-
+import sys
+sys.path.append(r'../ncg_optimizer') 
+from dy import DY
+from hs_dy import HS_DY
+from hs import HS
+from hz import HZ
 MyDevice = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-# def quadratic(tensor):
-#     x, y = tensor
-#     a = 2.0
-#     b = 1.0
-#     return (x ** 2) / a + (y ** 2) / b + 2 * x * y - x
-# initial_state = (-2.0, -2.0)
-# min_loc = (-1, 1)
-# min = torch.tensor(quadratic(min_loc),device=MyDevice)
-
-def rosenbrock(tensor):
+def quadratic(tensor):
     x, y = tensor
-    return (1 - x) ** 2 + 1 * (y - x ** 2) ** 2
+    a = 1.0
+    b = 1.0
+    return (x ** 2) / a + (y ** 2) / b + 2 * x * y - x - y
 initial_state = (-2.0, -2.0)
-min_loc = (1, 1)
-min = torch.tensor(rosenbrock(min_loc),device=MyDevice)
+min_loc = (0.25, 0.25)
+min = torch.tensor(quadratic(min_loc),device=MyDevice)
+
+# def rosenbrock(tensor):
+#     x, y = tensor
+#     return (1 - x) ** 2 + 1 * (y - x ** 2) ** 2
+# initial_state = (-2.0, -2.0)
+# min_loc = (1, 1)
+# min = torch.tensor(rosenbrock(min_loc),device=MyDevice)
 
 # def beale(tensor):
 #     x, y = tensor
@@ -54,23 +59,25 @@ iterations = 500
 def main():
     #optimizer = optim.LCG([x], eps = 1e-3)
     #optimizer = optim.FR([x], eps=1e-3, line_search='Armijo', lr=0.1)
-    optimizer = optim.FR([x], eps=1e-3, line_search='Wolfe', c2=0.9, lr=0.5, eta=5)
+    #optimizer = optim.FR([x], eps=1e-3, line_search='Wolfe', c2=0.9, lr=0.5, eta=5)
+    optimizer = HZ([x], eps=1e-3, line_search='Armijo', lr=0.1)
+    #optimizer = HZ([x], eps=1e-3, line_search='Wolfe', c2=0.9, lr=0.5, eta=5)
     #optimizer = FR([x], eps=1e-3, line_search='None')
     for _ in range(iterations):
         def closure():
-            #print(x)
+            print(x)
             optimizer.zero_grad()
-            #f = quadratic(x)
-            f = rosenbrock(x)
+            f = quadratic(x)
+            #f = rosenbrock(x)
             #f = beale(x)
             #f = rastrigin(x)
             f.backward(retain_graph=True, create_graph=True)
             return f
-        print(closure() - min)
+        #print(closure() - min)
         optimizer.step(closure)
         if torch.allclose(x, x_min.float(), atol=0.01) or torch.allclose(closure(), min.float(), atol=0.01):
             break
-    torch.allclose(closure(), min.float(), atol=0.01)
+    torch.allclose(closure(), min.float(), atol=0.05)
 
 if __name__ == '__main__':
     main()

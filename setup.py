@@ -31,6 +31,13 @@ keywords = [
     # optimizers
     'LCG',
     'FR',
+    'PRP',
+    'HS',
+    'CD',
+    'DY',
+    'LS',
+    'HZ',
+    'HS_DY',
     # line search
     'Armijo',
     'Wolfe',

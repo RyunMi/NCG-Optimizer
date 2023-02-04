@@ -4,4 +4,4 @@ Changes
 0.1.0 (2023-02-05)
 ------------------
 * Initial release.
-* Added support for LCG, FR and two line search function(Armijo & Wolfe).
+* Added support for LCG, FR, PRP, HS, CD, DY, LS, HZ, HS_DY and two line search function(Armijo & Wolfe).

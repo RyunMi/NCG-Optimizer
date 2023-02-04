@@ -5,7 +5,15 @@ from torch import nn
 
 import ncg_optimizer as optim
 
+import sys
+sys.path.append(r'../ncg_optimizer')
+from hs import HS
+from dy import DY
+from hs_dy import HS_DY
+from hz import HZ
 MyDevice = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+#MyDevice = torch.device("cpu")
+
 
 def make_dataset(seed=42):
     rng = np.random.RandomState(seed)
@@ -49,11 +57,14 @@ def main():
     iterations = 500
     loss_fn = nn.BCELoss()
     #optimizer = optim.FR(model.parameters(), eps=1e-3, line_search='Armijo', lr=0.1)
-    optimizer = optim.FR(model.parameters(), eps=1e-3, line_search='Wolfe', c2=0.5, lr=0.5, eta=5)
-    for _ in range(iterations):
+    #optimizer = optim.FR(model.parameters(), eps=1e-3, line_search='Wolfe', c2=0.5, lr=0.5, eta=5)
+    optimizer = HZ(model.parameters(), eps=1e-3, line_search='Armijo', lr=0.1)
+    #optimizer = HZ(model.parameters(), eps=1e-3, line_search='Wolfe', c2=0.9, lr=0.2, eta=5)
+    for _ in range(iterations+500):
         def closure():
             optimizer.zero_grad()
             y_pred = model(x_data)
+            #print(y_pred)
             loss = loss_fn(y_pred, y_data)
             print(loss)
             loss.backward(create_graph=True)
