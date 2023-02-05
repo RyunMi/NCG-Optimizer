@@ -1,0 +1,6 @@
+{
+    "esbonio.sphinx.confDir": "",
+    "python.analysis.extraPaths": [
+        "./ncg_optimizer"
+    ]
+}
