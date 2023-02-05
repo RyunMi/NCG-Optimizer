@@ -52,11 +52,11 @@ It was obtained by Fletcher and Reeves in 1964 by extending the conjugate gradie
 
 The scalar parameter update formula of the FR method is as follows:
 
-.. math:: \beta_k^{F R}=\frac{g_{k+1}^T g_{k+1}}{g_k^T g_k}
+$$ \\beta_k^{F R}=\\frac{g_{k+1}^T g_{k+1}}{g_k^T g_k}$$
 
 The convergence analysis of FR method is often closely related to its selected line search. 
 The FR method of exact line search is used to converge the general nonconvex function. 
-The FR method of strong Wolfe inexact line search method ( :math:`c_2 \leq 0.5` ) is adopted to globally converge to the general nonconvex function. 
+The FR method of strong Wolfe inexact line search method ($c_2 \\leq 0.5$ ) is adopted to globally converge to the general nonconvex function. 
 The generalized Wolfe or Armijo inexact line search FR method is globally convergent for general nonconvex functions.
 
 .. code-block:: python
