@@ -38,7 +38,7 @@ __all__ = (
     'HZ',
     'HS_DY'
 )
-__version__ = '0.0.3'
+__version__ = '0.0.4'
 
 
 _package_opts = [
