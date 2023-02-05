@@ -1,12 +1,9 @@
 import torch
 
-import sys
-sys.path.append(r'../ncg_optimizer') 
-
 from torch.optim.optimizer import Optimizer
 
-from Line_Search import Armijo
-from Line_Search import Wolfe
+from ncg_optimizer.Line_Search import Armijo
+from ncg_optimizer.Line_Search import Wolfe
 
 import copy
 
@@ -15,7 +12,7 @@ import warnings
 __all__ = ('HS_DY',)
 
 class HS_DY(Optimizer):
-    r"""Implements Hestenes-Stiefel Conjugate Gradient.
+    r"""Implements Hestenes-Stiefel + Dai-Yuan Conjugate Gradient.
 
     Arguments:
         params: iterable of parameters to optimize or dicts defining

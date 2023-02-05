@@ -3,12 +3,7 @@ import torch
 import math
 
 import ncg_optimizer as optim
-import sys
-sys.path.append(r'../ncg_optimizer') 
-from dy import DY
-from hs_dy import HS_DY
-from hs import HS
-from hz import HZ
+
 MyDevice = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 def quadratic(tensor):
@@ -59,8 +54,8 @@ iterations = 500
 def main():
     #optimizer = optim.LCG([x], eps = 1e-3)
     #optimizer = optim.FR([x], eps=1e-3, line_search='Armijo', lr=0.1)
-    #optimizer = optim.FR([x], eps=1e-3, line_search='Wolfe', c2=0.9, lr=0.5, eta=5)
-    optimizer = HZ([x], eps=1e-3, line_search='Armijo', lr=0.1)
+    optimizer = optim.FR([x], eps=1e-3, line_search='Wolfe', c2=0.9, lr=0.5, eta=5)
+    #optimizer = FR([x], eps=1e-3, line_search='Armijo', lr=0.1)
     #optimizer = HZ([x], eps=1e-3, line_search='Wolfe', c2=0.9, lr=0.5, eta=5)
     #optimizer = FR([x], eps=1e-3, line_search='None')
     for _ in range(iterations):

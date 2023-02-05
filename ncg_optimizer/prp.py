@@ -1,12 +1,9 @@
 import torch
 
-import sys
-sys.path.append(r'../ncg_optimizer') 
-
 from torch.optim.optimizer import Optimizer
 
-from Line_Search import Armijo
-from Line_Search import Wolfe
+from ncg_optimizer.Line_Search import Armijo
+from ncg_optimizer.Line_Search import Wolfe
 
 import copy
 
@@ -64,7 +61,7 @@ class PRP(Optimizer):
 
         if line_search not in [
             'Armijo',
-            'Wolfe', 
+            'Wolfe',
             'None',
             ]:
             raise ValueError("Invalid line search: {}".format(line_search))
