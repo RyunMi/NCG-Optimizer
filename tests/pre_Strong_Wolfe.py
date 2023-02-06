@@ -148,6 +148,7 @@ def Strong_Wolfe2(func, x, d, lr, c1, c2, iter):
             alpha = (amax + amin) / 2
         else:
             if abs(torch.dot(d_p.reshape(-1), d.reshape(-1))) <= -c2 * torch.dot(grad.reshape(-1), d.reshape(-1)):
+            #if abs(float(torch.norm(d_p.reshape(-1)))) <= -c2 * float(torch.norm(grad.reshape(-1))):
                 return alpha
             amin = alpha
             x.data = x.data - alpha * d
