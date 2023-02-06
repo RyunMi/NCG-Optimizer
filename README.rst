@@ -56,7 +56,7 @@ $$ \\beta_k^{F R}=\\frac{g_{k+1}^T g_{k+1}}{g_k^T g_k}$$
 
 The convergence analysis of FR method is often closely related to its selected line search. 
 The FR method of exact line search is used to converge the general nonconvex function. 
-The FR method of strong Wolfe inexact line search method (c2 <= 0.5) is adopted to globally converge to the general nonconvex function. 
+The FR method of strong Wolfe inexact line search method $c2 \\leq 0.5$ is adopted to globally converge to the general nonconvex function. 
 The generalized Wolfe or Armijo inexact line search FR method is globally convergent for general nonconvex functions.
 
 .. code-block:: python
@@ -74,6 +74,22 @@ The generalized Wolfe or Armijo inexact line search FR method is globally conver
             loss_fn(model(input), target).backward()
             return loss_fn
         optimizer.step(closure)
+
+Polak-Ribiere-Polyak Method
+"""""""""""""""""""""""""""
+
+The  Polak-Ribiere-Polyak method is a nonlinear conjugate gradient method proposed independently by Polak, Ribiere and Polyak in 1969. 
+The PRP method is one of the conjugate gradient methods with the best numerical performance. 
+When the algorithm produces a small step, the search direction defined by the PRP method automatically approaches the negative gradient direction, 
+thus effectively avoiding the disadvantage that the FR method may continuously produce small steps.
+
+The scalar parameter update formula of the FR method is as follows:
+
+$$ \\beta_k^{PRP}=\\frac{g_{k}^{T}(g_{k}-g_{k-1})}{\\lVert g_{k-1}\\rVert^2}$$
+
+
+
+
 
 References
 ==========
