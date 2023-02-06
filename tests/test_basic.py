@@ -35,15 +35,15 @@ def beale(tensor):
 # min_loc = (3, 0.5)
 # min = torch.tensor(beale(min_loc),device=MyDevice)
 
-# def rastrigin(tensor, lib=torch):
-#     x, y = tensor
-#     A = 10
-#     f = (
-#         A * 2
-#         + (x ** 2 - A * lib.cos(x * math.pi * 2))
-#         + (y ** 2 - A * lib.cos(y * math.pi * 2))
-#     )
-#     return f
+def rastrigin(tensor, lib=torch):
+    x, y = tensor
+    A = 10
+    f = (
+        A * 2
+        + (x ** 2 - A * lib.cos(x * math.pi * 2))
+        + (y ** 2 - A * lib.cos(y * math.pi * 2))
+    )
+    return f
 # initial_state = (-2.0, 3.5)
 # min_loc = (0, 0)
 # min = torch.tensor(rastrigin(torch.tensor(min_loc,device=MyDevice)))
@@ -52,7 +52,7 @@ cases = [
     (quadratic, (1.5, 1.5), (0, 0)),
     (rosenbrock, (1.5, 1.5), (1, 1)),
     (beale, (1.5, 1.5), (3, 0.5)),
-    #(rastrigin, (1.5, 1.5), (0, 0)),
+    (rastrigin, (1.5, 1.5), (0, 0)),
 ]
 
 def ids(v):
