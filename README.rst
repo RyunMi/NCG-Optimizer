@@ -219,7 +219,7 @@ and the search direction approaches the direction of the memoryless BFGS quasi-N
 The scalar parameter update formula of the HZ method is as follows:
 
 $$
-\\beta_k^{HZ}=\\frac{1}{d_{k-1}^T (g_{k} - g_{k-1})}((g_{k} - g_{k-1})-2 d_{k-1} \\frac{\\|(g_{k} - g_{k-1}) \\|^2}{d_{k-1}^T (g_{k} - g_{k-1})})^{\\top}{g}_{k}
+\\beta_k^{HZ}=\\frac{1}{d_{k-1}^T (g_{k} - g_{k-1})}((g_{k} - g_{k-1})-2 d_{k-1} \\frac{\\|(g_{k} - g_{k-1}) \\|^2}{d_{k-1}^T (g_{k} - g_{k-1})})^T{g}_{k}
 $$
 
 The convergence analysis of the HZ method is often closely related to the selected line search. 
@@ -259,7 +259,7 @@ and the performance effect is also better than the PRP method.
 .. code-block:: python
 
 
-        optimizer = optim.LS(
+        optimizer = optim.HS_DY(
             model.parameters(), line_search = 'Wolfe', 
             c1 = 1e-4, c2 = 0.9 lr = 0.2, eta = 5,)
         def closure():
@@ -290,8 +290,8 @@ the second inequality is introduced, so there is :
 
 $$
 \\begin{gather*}
-f\\left(x_k+\alpha_k d_k\\right) \\leqslant f\\left(x_k\\right)+min(\\epsilon|d_k^T g_k|,c_1 \\alpha_k d_k^T g_k+\\eta_k)  \\
-\\nabla f\\left(x_k+\alpha d_k\\right)^T d_k \\geq c_2 \\nabla f_k^T d_k  
+f\\left(x_k+\\alpha_k d_k\\right) \\leqslant f\\left(x_k\\right)+min(\\epsilon|d_k^T g_k|,c_1 \\alpha_k d_k^T g_k+\\eta_k)  \\
+\\nabla f\\left(x_k+\\alpha d_k\\right)^T d_k \\geq c_2 \\nabla f_k^T d_k  
 \\end{gather*}
 $$
 
