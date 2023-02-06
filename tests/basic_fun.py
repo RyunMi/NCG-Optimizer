@@ -19,24 +19,24 @@ MyDevice = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 # min_loc = (0.25, 0.25)
 # min = torch.tensor(quadratic(min_loc),device=MyDevice)
 
-def rosenbrock(tensor):
-    x, y = tensor
-    return (1 - x) ** 2 + 1 * (y - x ** 2) ** 2
-initial_state = (-2.0, -2.0)
-min_loc = (1, 1)
-min = torch.tensor(rosenbrock(min_loc),device=MyDevice)
-
-# def beale(tensor):
+# def rosenbrock(tensor):
 #     x, y = tensor
-#     f = (
-#         (1.5 - x + x * y) ** 2
-#         + (2.25 - x + x * y ** 2) ** 2
-#         + (2.625 - x + x * y ** 3) ** 2
-#     )
-#     return f
-# initial_state = (1.5, 1.5)
-# min_loc = (3, 0.5)
-# min = torch.tensor(beale(min_loc),device=MyDevice)
+#     return (1 - x) ** 2 + 1 * (y - x ** 2) ** 2
+# initial_state = (-2.0, -2.0)
+# min_loc = (1, 1)
+# min = torch.tensor(rosenbrock(min_loc),device=MyDevice)
+
+def beale(tensor):
+    x, y = tensor
+    f = (
+        (1.5 - x + x * y) ** 2
+        + (2.25 - x + x * y ** 2) ** 2
+        + (2.625 - x + x * y ** 3) ** 2
+    )
+    return f
+initial_state = (1.5, 1.5)
+min_loc = (3, 0.5)
+min = torch.tensor(beale(min_loc),device=MyDevice)
 
 # def rastrigin(tensor, lib=torch):
 #     x, y = tensor
@@ -67,8 +67,8 @@ def main():
             #print(x)
             optimizer.zero_grad()
             #f = quadratic(x)
-            f = rosenbrock(x)
-            #f = beale(x)
+            #f = rosenbrock(x)
+            f = beale(x)
             #f = rastrigin(x)
             f.backward(retain_graph=True, create_graph=True)
             return f

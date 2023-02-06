@@ -260,8 +260,8 @@ and the performance effect is also better than the PRP method.
 
 
         optimizer = optim.HS_DY(
-            model.parameters(), line_search = 'Wolfe', 
-            c1 = 1e-4, c2 = 0.9 lr = 0.2, eta = 5,)
+            model.parameters(), line_search = 'Armijo', 
+            c1 = 1e-4, c2 = 0.9 lr = 1, rho = 0.5,)
         def closure():
             optimizer.zero_grad()
             loss_fn(model(input), target).backward()
@@ -299,7 +299,7 @@ where the $c_2 \\in (c_1, 1)$.
 
 Strong Wolfe Line Search
 """"""""""""""""""""""""
-The strong Wolfe criterion reduces the constraint to less than 0 on the basis of the original Wolfe criterion to ensure the true approximation of the exact line search :
+The Strong Wolfe criterion reduces the constraint to less than 0 on the basis of the original Wolfe criterion to ensure the true approximation of the exact line search :
 
 $$
 \\begin{gather*}

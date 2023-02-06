@@ -42,16 +42,7 @@ def Wolfe(func, x, d, lr, c1, c2, eta, k, iter):
     """
     F_o = float(func())
     
-    x.data = x.data + 0.1 * lr * d
-
-    grad = float(torch.norm(torch.autograd.grad(func(), x, retain_graph=True, create_graph=True)[0]))
-
-    if float(func()) <= F_o and not (float(func()) - F_o - 0.1 * lr * grad):
-        alpha = -grad * 0.01 * pow(lr, 2) / (2 * (float(func()) - F_o - 0.1 * lr * grad))
-    else:
-        alpha = 2 * lr
-
-    x.data = x.data - 0.1 * lr * d
+    alpha = 2 * lr
 
     a = 0
     b = pow(10, 5)
