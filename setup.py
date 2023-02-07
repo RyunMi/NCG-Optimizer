@@ -28,7 +28,7 @@ def _read_version():
 keywords = [
     'ncg-optimizer',
     'pytorch',
-    # optimizers
+    # Basic optimizers
     'LCG',
     'FR',
     'PRP',
@@ -37,7 +37,7 @@ keywords = [
     'DY',
     'LS',
     'HZ',
-    'HS_DY',
+    'HS-DY',
     # line search
     'Armijo',
     'Wolfe',

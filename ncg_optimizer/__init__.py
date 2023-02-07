@@ -18,39 +18,18 @@ from typing import Dict, List, Type
 from torch.optim.optimizer import Optimizer
 
 from .lcg import LCG
-from .fr import FR
-from .prp import PRP
-from .hs import HS
-from .cd import CD
-from .dy import DY
-from .ls import LS
-from .hz import HZ
-from .hs_dy import HS_DY
+from .basic import BASIC
 
 __all__ = (
     'LCG',
-    'FR',
-    'PRP',
-    'HS',
-    'CD',
-    'DY',
-    'LS',
-    'HZ',
-    'HS_DY'
+    'BASIC'
 )
-__version__ = '0.0.5'
+__version__ = '0.0.6'
 
 
 _package_opts = [
     LCG,
-    FR,
-    PRP,
-    HS,
-    CD,
-    DY,
-    LS,
-    HZ,
-    HS_DY,
+    BASIC,
 ]  # type: List[Type[Optimizer]]
 
 

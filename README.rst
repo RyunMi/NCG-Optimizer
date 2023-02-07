@@ -62,9 +62,10 @@ The generalized Wolfe or Armijo inexact line search FR method is globally conver
 .. code-block:: python
 
         
-        optimizer = optim.FR(
-            model.parameters(), line_search = 'Wolfe', 
-            c1 = 1e-4, c2 = 0.5, lr = 0.2, eta = 5,)
+        optimizer = optim.BASIC(
+            model.parameters(), method = 'FR',
+            line_search = 'Wolfe', c1 = 1e-4, 
+            c2 = 0.5, lr = 0.2, eta = 5,)
         def closure():
             optimizer.zero_grad()
             loss_fn(model(input), target).backward()
@@ -92,9 +93,10 @@ The PRP method with some constant step size factor ( involving Lipschitz constan
 .. code-block:: python
 
 
-        optimizer = optim.PRP(
-            model.parameters(), line_search = 'Armijo', 
-            c1 = 1e-4, c2 = 0.9, lr = 1, rho = 0.5,)
+        optimizer = optim.BASIC(
+            model.parameters(), method = 'PRP',
+            line_search = 'Armijo', c1 = 1e-4, 
+            c2 = 0.9, lr = 1, rho = 0.5,)
         def closure():
             optimizer.zero_grad()
             loss_fn(model(input), target).backward()
@@ -121,9 +123,10 @@ The HS$^+$ method with the strong Wolfe ( $0 < c_2 < \\frac{1}{3}$ ) inexact lin
 .. code-block:: python
 
 
-        optimizer = optim.HS(
-            model.parameters(), line_search = 'Wolfe', 
-            c1 = 1e-4, c2 = 0.4, lr = 0.2, eta = 5,)
+        optimizer = optim.BASIC(
+            model.parameters(), method = 'HS',
+            line_search = 'Wolfe', c1 = 1e-4, 
+            c2 = 0.4, lr = 0.2, eta = 5,)
         def closure():
             optimizer.zero_grad()
             loss_fn(model(input), target).backward()
@@ -148,9 +151,10 @@ The CD method using Armijo inexact line search method converges globally for gen
 .. code-block:: python
 
 
-        optimizer = optim.CD(
-            model.parameters(), line_search = 'Armijo', 
-            c1 = 1e-4, c2 = 0.9, lr = 1, rho = 0.5,)
+        optimizer = optim.BASIC(
+            model.parameters(), method = 'CD',
+            line_search = 'Armijo', c1 = 1e-4, 
+            c2 = 0.9, lr = 1, rho = 0.5,)
         def closure():
             optimizer.zero_grad()
             loss_fn(model(input), target).backward()
@@ -173,9 +177,10 @@ The LS method using Armijo-type inexact line search method converges globally fo
 .. code-block:: python
 
 
-        optimizer = optim.LS(
-            model.parameters(), line_search = 'Armijo', 
-            c1 = 1e-4, c2 = 0.9, lr = 1, rho = 0.5,)
+        optimizer = optim.BASIC(
+            model.parameters(), method = 'LS',
+            line_search = 'Armijo', c1 = 1e-4, 
+            c2 = 0.9, lr = 1, rho = 0.5,)
         def closure():
             optimizer.zero_grad()
             loss_fn(model(input), target).backward()
@@ -201,9 +206,10 @@ The DY method using the Wolfe inexact line search method converges globally for 
 .. code-block:: python
 
 
-        optimizer = optim.DY(
-            model.parameters(), line_search = 'Wolfe', 
-            c1 = 1e-4, c2 = 0.9, lr = 0.2, eta = 5,)
+        optimizer = optim.BASIC(
+            model.parameters(), method = 'DY',
+            line_search = 'Wolfe', c1 = 1e-4, 
+            c2 = 0.9, lr = 0.2, eta = 5,)
         def closure():
             optimizer.zero_grad()
             loss_fn(model(input), target).backward()
@@ -229,9 +235,10 @@ The HZ$^+$ method using Armijo inexact line search method converges globally for
 .. code-block:: python
 
 
-        optimizer = optim.HZ(
-            model.parameters(), line_search = 'Wolfe', 
-            c1 = 1e-4, c2 = 0.9, lr = 0.2, eta = 5,)
+        optimizer = optim.BASIC(
+            model.parameters(), method = 'HZ',
+            line_search = 'Wolfe', c1 = 1e-4, 
+            c2 = 0.9, lr = 0.2, eta = 5,)
         def closure():
             optimizer.zero_grad()
             loss_fn(model(input), target).backward()
@@ -259,9 +266,10 @@ and the performance effect is also better than the PRP method.
 .. code-block:: python
 
 
-        optimizer = optim.HS_DY(
-            model.parameters(), line_search = 'Armijo', 
-            c1 = 1e-4, c2 = 0.9 lr = 1, rho = 0.5,)
+        optimizer = optim.BASIC(
+            model.parameters(), method = 'HS-DY',
+            line_search = 'Armijo', c1 = 1e-4, 
+            c2 = 0.9 lr = 1, rho = 0.5,)
         def closure():
             optimizer.zero_grad()
             loss_fn(model(input), target).backward()

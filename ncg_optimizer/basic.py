@@ -9,16 +9,26 @@ import copy
 
 import warnings
 
-__all__ = ('LS',)
+__all__ = ('BASIC',)
 
-class LS(Optimizer):
-    r"""Implements Liu-Storey Conjugate Gradient.
+class BASIC(Optimizer):
+    r"""Implements Hestenes-Stiefel + Dai-Yuan Conjugate Gradient.
 
     Arguments:
         params: iterable of parameters to optimize or dicts defining
             parameter groups
         eps: term added to the denominator to improve
             numerical stability (default: 1e-3)
+        method: select basic congjugate gradient (default: 'PRP)
+            Optios:
+                'FR': Implements Fletcher-Reeves Conjugate Gradient
+                'PRP': Implements Polak Ribiere Polyak Conjugate Gradient.
+                'HS': Implements Hestenes-Stiefel Conjugate Gradient.
+                'CD': Implements Conjugate Descent Method.
+                'DY': Implements Dai-Yuan Conjugate Gradient.
+                'LS': Implements Liu-Storey Conjugate Gradient.
+                'HZ': Implements Hager-Zhang Conjugate Gradient.
+                'HS-DY': Implements Hybird Hestenes-Stiefel + Dai-Yuan Conjugate Gradient.
         line_search: designates line search to use (default: 'Armijo')
             Options:
                 'None': uses exact line search(requires the loss is quadratic)
@@ -33,8 +43,8 @@ class LS(Optimizer):
     
     Example:
         >>> import ncg_optimizer as optim
-        >>> optimizer = optim.LS(
-        >>>     model.parameters(), eps = 1e-3, 
+        >>> optimizer = optim.HS_DY(
+        >>>     model.parameters(), eps = 1e-3, method = 'PRP',
         >>>     line_search = 'Armijo', c1 = 1e-4, c2 = 0.4,
         >>>     lr = 1, rho = 0.5, eta = 5,  max_ls = 10)
         >>> def closure():
@@ -48,6 +58,7 @@ class LS(Optimizer):
         self,
         params,
         eps = 1e-3,
+        method = 'PRP',
         line_search = 'Armijo',
         c1 = 1e-4,
         c2 = 0.4,
@@ -58,6 +69,18 @@ class LS(Optimizer):
     ):
         if eps < 0.0:
             raise ValueError('Invalid epsilon value: {}'.format(eps))
+
+        if method not in [
+            'FR',
+            'PRP', 
+            'HS',
+            'CD',
+            'DY',
+            'LS',
+            'HZ',
+            'HS-DY',
+            ]:
+            raise ValueError("Invalid method: {}".format(method))
 
         if line_search not in [
             'Armijo',
@@ -88,6 +111,7 @@ class LS(Optimizer):
 
         defaults = dict(
             eps=eps,
+            method = method,
             line_search=line_search,
             c1 = c1,
             c2 = c2,
@@ -97,7 +121,7 @@ class LS(Optimizer):
             max_ls = max_ls,
         )
 
-        super(LS, self).__init__(params, defaults)
+        super(BASIC, self).__init__(params, defaults)
 
     def _get_A(p, d_p):
         print(d_p)
@@ -146,6 +170,7 @@ class LS(Optimizer):
 
                 state = self.state[p]
 
+                method = group['method']
                 line_search = group['line_search']
                 c1 = group['c1']
                 c2 = group['c2']
@@ -175,9 +200,53 @@ class LS(Optimizer):
                     state['alpha'] = lr
                 else:
                     # Parameters that make gradient steps
-                    state['beta'] = -torch.dot(d_p.data.reshape(-1), (d_p.data.reshape(-1) - state['g'].reshape(-1))) \
-                    / torch.dot(state['d'].data.reshape(-1), state['g'].reshape(-1))
-
+                    if method == 'FR':
+                        state['beta'] = torch.norm(d_p.data) / torch.norm(state['g'])
+                    
+                    elif method == 'PRP':
+                        state['beta'] = torch.dot(
+                            d_p.data.reshape(-1), 
+                            (d_p.data.reshape(-1) - state['g'].reshape(-1))) / torch.norm(state['g'])
+                    
+                    elif method == 'HS':
+                        state['beta'] = torch.dot(
+                            d_p.data.reshape(-1), 
+                            (d_p.data.reshape(-1) - state['g'].reshape(-1))) \
+                            / torch.dot(state['d'].data.reshape(-1), 
+                                (d_p.data.reshape(-1) - state['g'].reshape(-1)))
+                    
+                    elif method == 'CD':
+                        state['beta'] = -torch.norm(d_p.data) \
+                            / torch.dot(state['d'].data.reshape(-1), state['g'].reshape(-1))
+                    
+                    elif method == 'DY':
+                        state['beta'] = torch.norm(d_p.data) \
+                            / torch.dot(state['d'].data.reshape(-1), 
+                                (d_p.data.reshape(-1) - state['g'].reshape(-1)))
+                    
+                    elif method =='LS':
+                        state['beta'] = -torch.dot(
+                            d_p.data.reshape(-1), 
+                            (d_p.data.reshape(-1) - state['g'].reshape(-1))) \
+                            / torch.dot(state['d'].data.reshape(-1), state['g'].reshape(-1))
+                    
+                    elif method =='HZ':
+                        Q = d_p.data - state['g']
+                        M = Q - 2 *  torch.norm(Q) \
+                            / torch.dot(state['d'].reshape(-1), Q.reshape(-1)) * state['d']
+                        N = d_p.data / torch.dot(state['d'].reshape(-1), Q.reshape(-1))
+                        state['beta'] = torch.dot(M.reshape(-1), N.reshape(-1))
+                    
+                    elif method =='HS-DY':
+                        state['beta'] = max(0, 
+                            min(torch.dot(d_p.data.reshape(-1), 
+                                    (d_p.data.reshape(-1) - state['g'].reshape(-1))) \
+                            / torch.dot(state['d'].data.reshape(-1), 
+                                    (d_p.data.reshape(-1) - state['g'].reshape(-1))),
+                            torch.norm(d_p.data) \
+                            / torch.dot(state['d'].data.reshape(-1), 
+                                    (d_p.data.reshape(-1) - state['g'].reshape(-1)))))
+                    
                     state['g'] = copy.deepcopy(d_p.data)
 
                     if torch.norm(state['g']) < group['eps']:
@@ -189,10 +258,10 @@ class LS(Optimizer):
 
                 if line_search == 'None':
                     if state['index']:
-                        state['A'] = LS._get_A(p, d_p)
-                        state['alpha'] = LS.Exact(state['A'], d_p, state['d'])
+                        state['A'] = BASIC._get_A(p, d_p)
+                        state['alpha'] = BASIC.Exact(state['A'], d_p, state['d'])
                     else:
-                        state['alpha'] = LS.Exact(state['A'], d_p, state['d'])
+                        state['alpha'] = BASIC.Exact(state['A'], d_p, state['d'])
 
                 elif line_search == 'Armijo':
                     state['alpha'] = Armijo(closure, p, state['g'], state['d'], state['alpha'], rho, c1, max_ls)

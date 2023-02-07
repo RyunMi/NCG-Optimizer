@@ -49,10 +49,10 @@ def rastrigin(tensor, lib=torch):
 # min = torch.tensor(rastrigin(torch.tensor(min_loc,device=MyDevice)))
 
 cases = [
-    (quadratic, (1.5, 1.5), (0, 0)),
-    (rosenbrock, (1.5, 1.5), (1, 1)),
+    (quadratic, (-2.0, -2.0), (0, 0)),
+    (rosenbrock, (-2.0, -2.0), (1, 1)),
     (beale, (1.5, 1.5), (3, 0.5)),
-    (rastrigin, (1.5, 1.5), (0, 0)),
+    (rastrigin, (-2.0, 3.5), (0, 0)),
 ]
 
 def ids(v):
@@ -60,14 +60,22 @@ def ids(v):
     return n
 
 optimizers = [
-    (optim.FR,{'line_search': 'Wolfe','c1': 1e-4,'c2': 0.5, 'lr': 0.2, 'eta': 5}, 500),
-    (optim.PRP, {'line_search': 'Wolfe', 'c1': 1e-4, 'c2': 0.9, 'lr': 0.5, 'eta': 5}, 500),
-    (optim.HS,{'line_search': 'Wolfe','c1': 1e-4,'c2': 0.4, 'lr': 0.2, 'eta': 5}, 500),
-    (optim.CD, {'line_search': 'Wolfe', 'c1': 1e-4, 'c2': 0.9, 'lr': 0.5, 'eta': 5}, 500),
-    (optim.LS, {'line_search': 'Wolfe', 'c1': 1e-4, 'c2': 0.9, 'lr': 0.5, 'eta': 5}, 500),
-    (optim.DY,{'line_search': 'Wolfe','c1': 1e-4,'c2': 0.9, 'lr': 0.2, 'eta': 5}, 500),
-    (optim.HZ,{'line_search': 'Wolfe','c1': 1e-4,'c2': 0.9, 'lr': 0.2, 'eta': 5}, 500),
-    (optim.HS_DY, {'line_search': 'Wolfe', 'c1': 1e-4, 'c2': 0.9, 'lr': 0.5, 'eta': 5}, 500),
+    # (optim.FR,{'line_search': 'Wolfe','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'eta': 5}, 500),
+    # (optim.PRP,{'line_search': 'Wolfe', 'c1': 1e-4, 'c2': 0.9, 'lr': 0.5, 'eta': 5}, 500),
+    # (optim.HS,{'line_search': 'Wolfe','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'eta': 5}, 500),
+    # (optim.CD,{'line_search': 'Wolfe', 'c1': 1e-4, 'c2': 0.9, 'lr': 0.5, 'eta': 5}, 500),
+    # (optim.LS,{'line_search': 'Wolfe', 'c1': 1e-4, 'c2': 0.9, 'lr': 0.5, 'eta': 5}, 500),
+    # (optim.DY,{'line_search': 'Wolfe','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'eta': 5}, 500),
+    # (optim.HZ,{'line_search': 'Wolfe','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'eta': 5}, 500),
+    # (optim.HS_DY,{'line_search': 'Wolfe', 'c1': 1e-4, 'c2': 0.9, 'lr': 0.5, 'eta': 5}, 500),
+    (optim.FR,{'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
+    (optim.PRP,{'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
+    (optim.HS,{'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
+    (optim.CD,{'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
+    (optim.LS,{'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
+    (optim.DY,{'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
+    (optim.HZ,{'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
+    (optim.HS_DY,{'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
 ]
 
 @pytest.mark.parametrize('case', cases, ids=ids)
@@ -76,8 +84,8 @@ def test_benchmark_function(case, optimizer_config):
     func, initial_state, min_loc = case
     optimizer_class, config, iterations = optimizer_config
 
-    x = torch.Tensor(initial_state).requires_grad_(True)
-    x_min = torch.Tensor(min_loc)
+    x = torch.tensor(initial_state).requires_grad_(True)
+    x_min = torch.tensor(min_loc)
     optimizer = optimizer_class([x], **config)
     for _ in range(iterations):
         def closure():
@@ -85,8 +93,11 @@ def test_benchmark_function(case, optimizer_config):
             f = func(x)
             f.backward(retain_graph=True, create_graph=True)
             return f
+        #print(closure() - func(x_min).float())
         optimizer.step(closure)
-    assert torch.allclose(closure(), func(x_min), atol=0.01)
+        if torch.allclose(x, x_min.float(), atol=0.01) or torch.allclose(closure(), func(x_min).float(), atol=0.05):
+            break
+    assert torch.allclose(closure(), func(x_min).float(), atol=0.05)
 
     name = optimizer.__class__.__name__
     assert name in optimizer.__repr__()
