@@ -57,11 +57,8 @@ iterations = 500
 
 def main():
     #optimizer = optim.LCG([x], eps = 1e-3)
-    optimizer = optim.LS([x], eps=1e-3, line_search='Armijo', lr=0.5)
-    #optimizer = optim.FR([x], eps=1e-3, line_search='Wolfe', c2=0.9, lr=0.5, eta=5)
-    #optimizer = FR([x], eps=1e-3, line_search='Armijo', lr=0.1)
-    #optimizer = optim.PRP([x], eps=1e-3, line_search='Wolfe', c1 = 0.1, c2=0.9, lr=0.5, eta=5)
-    #optimizer = FR([x], eps=1e-3, line_search='None')
+    optimizer = optim.BASCI([x], eps=1e-3, method ='LS', line_search='Armijo', lr=0.5)
+    #optimizer = optim.BASIC([x], eps=1e-3, method ='PRP', line_search='Wolfe', c2=0.9, lr=0.5, eta=5)
     for _ in range(iterations+500):
         def closure():
             #print(x)

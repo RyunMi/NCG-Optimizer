@@ -50,10 +50,8 @@ def main():
     model = LogisticRegression().to(MyDevice)
     iterations = 500
     loss_fn = nn.BCELoss()
-    #optimizer = optim.FR(model.parameters(), eps=1e-3, line_search='Armijo', lr=0.1)
-    #optimizer = optim.FR(model.parameters(), eps=1e-3, line_search='Wolfe', c2=0.5, lr=0.5, eta=5)
-    optimizer = optim.HZ(model.parameters(), eps=1e-3, line_search='Armijo', lr=0.1)
-    #optimizer = HZ(model.parameters(), eps=1e-3, line_search='Wolfe', c2=0.9, lr=0.2, eta=5)
+    optimizer = optim.BASIC(model.parameters(), eps=1e-3, method = 'FR', line_search='Armijo', lr=0.1)
+    #optimizer = optim.BASIC(model.parameters(), eps=1e-3, method = 'FR', line_search='Wolfe', c2=0.5, lr=0.5, eta=5)
     for _ in range(iterations+500):
         def closure():
             optimizer.zero_grad()

@@ -68,14 +68,14 @@ optimizers = [
     # (optim.DY,{'line_search': 'Wolfe','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'eta': 5}, 500),
     # (optim.HZ,{'line_search': 'Wolfe','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'eta': 5}, 500),
     # (optim.HS_DY,{'line_search': 'Wolfe', 'c1': 1e-4, 'c2': 0.9, 'lr': 0.5, 'eta': 5}, 500),
-    (optim.FR,{'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
-    (optim.PRP,{'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
-    (optim.HS,{'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
-    (optim.CD,{'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
-    (optim.LS,{'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
-    (optim.DY,{'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
-    (optim.HZ,{'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
-    (optim.HS_DY,{'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
+    (optim.BASIC,{'method': 'FR', 'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
+    (optim.BASIC,{'method': 'PRP', 'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
+    (optim.BASIC,{'method': 'HS', 'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
+    (optim.BASIC,{'method': 'CD', 'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
+    (optim.BASIC,{'method': 'DY', 'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
+    (optim.BASIC,{'method': 'LS', 'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
+    (optim.BASIC,{'method': 'HZ', 'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
+    (optim.BASIC,{'method': 'HS-DY', 'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
 ]
 
 @pytest.mark.parametrize('case', cases, ids=ids)
