@@ -3,8 +3,8 @@ API and usage patterns are the same as `torch.optim`__
 Example
 -------
 >>> import ncg_optimizer as optim
->>> optimizer = optim.PRP(
->>>     model.parameters(), eps = 1e-3, 
+>>> optimizer = optim.BASIC(
+>>>     model.parameters(), eps = 1e-3, method = 'PRP',
 >>>     line_search = 'Armijo', c1 = 1e-4, c2 = 0.4,
 >>>     lr = 1, rho = 0.5, eta = 5,  max_ls = 10)
 >>> def closure():
@@ -24,7 +24,7 @@ __all__ = (
     'LCG',
     'BASIC'
 )
-__version__ = '0.0.6'
+__version__ = '0.0.7'
 
 
 _package_opts = [

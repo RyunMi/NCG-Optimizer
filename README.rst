@@ -216,8 +216,8 @@ The DY method using the Wolfe inexact line search method converges globally for 
             return loss_fn
         optimizer.step(closure)
 
-Hager-Zhang Method
-""""""""""""""""""
+Hager-Zhang Method [#HZ]_
+"""""""""""""""""""""""""
 The Hager-Zhang ( **HZ** ) method is a new nonlinear conjugate gradient method proposed by Hager and Zhang in 2005. 
 It satisfies the sufficient descent condition and has global convergence for strongly convex functions, 
 and the search direction approaches the direction of the memoryless BFGS quasi-Newton method.
@@ -289,8 +289,11 @@ $$
 
 Among them, $c_1\\in (0,1)$ is generally taken as $c_1 = 10^{-4}$.
 
-Wolfe Line Search [#Wolfe]_
-"""""""""""""""""""""""""""
+.. image:: https://raw.githubusercontent.com/RyunMi/NCG-optimizer/master/docs/Armijo.png
+        :width: 800px
+
+Wolfe Line Search(Coming Soon...)
+"""""""""""""""""""""""""""""""""
 In the following two formulas, the first inequality is an improvement of the Armijo criterion,
 which avoids the defects of the original Wolfe line search and has good numerical performance. 
 In addition, in order to prevent the step size from being too small and ensure that the objective function decreases sufficiently, 
@@ -298,15 +301,15 @@ the second inequality is introduced, so there is :
 
 $$
 \\begin{gather*}
-f\\left(x_k+\\alpha_k d_k\\right) \\leqslant f\\left(x_k\\right)+min(\\epsilon|d_k^T g_k|,c_1 \\alpha_k d_k^T g_k+\\eta_k)  \\
+f\\left(x_k+\\alpha_k d_k\\right) \\leqslant f\\left(x_k\\right)+c_1 \\alpha_k d_k^T g_k  \\
 \\nabla f\\left(x_k+\\alpha d_k\\right)^T d_k \\geq c_2 \\nabla f_k^T d_k  
 \\end{gather*}
 $$
 
 where the $c_2 \\in (c_1, 1)$.
 
-Strong Wolfe Line Search
-""""""""""""""""""""""""
+Strong Wolfe Line Search [#NO1]_ [#MF]_
+"""""""""""""""""""""""""""""""""""""""
 The Strong Wolfe criterion reduces the constraint to less than 0 on the basis of the original Wolfe criterion to ensure the true approximation of the exact line search :
 
 $$
@@ -316,6 +319,12 @@ f\\left(x_k+\\alpha_k d_k\\right) \\leqslant f\\left(x_k\\right)+c_1 \\alpha_k d
 \\end{gather*}
 $$
 
+.. image:: https://raw.githubusercontent.com/RyunMi/NCG-optimizer/master/docs/Strong_Wolfe.png
+        :width: 800px
+
+.. image:: https://raw.githubusercontent.com/RyunMi/NCG-optimizer/master/docs/Zoom.png
+        :width: 800px
+
 References
 ==========
 
@@ -323,4 +332,5 @@ References
 .. [#NO1] Nocedal J, Wright S J. Line search methods[J]. Numerical optimization, 2006: 30-65.
 .. [#NO2] Nocedal J, Wright S J. Conjugate gradient methods[J]. Numerical optimization, 2006: 101-134. 
 .. [#CGNO] Pytlak R. Conjugate gradient algorithms in nonconvex optimization[M]. Springer Science & Business Media, 2008.
-.. [#Wolfe] Dai Y H, Kou C X. A nonlinear conjugate gradient algorithm with an optimal property and an improved Wolfe line search[J]. SIAM Journal on Optimization, 2013, 23(1): 296-320.
+.. [#HZ] Hager W W, Zhang H. A new conjugate gradient method with guaranteed descent and an efficient line search[J]. SIAM Journal on optimization, 2005, 16(1): 170-192.
+.. [#MF] M. Schmidt. minFunc: unconstrained differentiable multivariate optimization in Matlab. http://www.cs.ubc.ca/~schmidtm/Software/minFunc.html, 2005.

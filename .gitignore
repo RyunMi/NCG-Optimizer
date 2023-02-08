@@ -1,6 +1,7 @@
 # RST+Sphinx
 .vscode
 conf.py
+_build
 
 # python
 __pycache__

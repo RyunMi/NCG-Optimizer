@@ -40,7 +40,7 @@ keywords = [
     'HS-DY',
     # line search
     'Armijo',
-    'Wolfe',
+    'Strong Wolfe',
 ]
 
 setup(

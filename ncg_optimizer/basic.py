@@ -3,7 +3,9 @@ import torch
 from torch.optim.optimizer import Optimizer
 
 from ncg_optimizer.Line_Search import Armijo
-from ncg_optimizer.Line_Search import Wolfe
+#from ncg_optimizer.Line_Search import Wolfe
+
+from ncg_optimizer.Line_Search import Strong_Wolfe
 
 import copy
 
@@ -12,14 +14,17 @@ import warnings
 __all__ = ('BASIC',)
 
 class BASIC(Optimizer):
-    r"""Implements Hestenes-Stiefel + Dai-Yuan Conjugate Gradient.
+    """
+    Implements Basic Nonlinear Conjugate Gradient.
 
     Arguments:
         params: iterable of parameters to optimize or dicts defining
             parameter groups
+        
         eps: term added to the denominator to improve
             numerical stability (default: 1e-3)
-        method: select basic congjugate gradient (default: 'PRP)
+       
+         method: select basic congjugate gradient (default: 'PRP)
             Optios:
                 'FR': Implements Fletcher-Reeves Conjugate Gradient
                 'PRP': Implements Polak Ribiere Polyak Conjugate Gradient.
@@ -29,21 +34,26 @@ class BASIC(Optimizer):
                 'LS': Implements Liu-Storey Conjugate Gradient.
                 'HZ': Implements Hager-Zhang Conjugate Gradient.
                 'HS-DY': Implements Hybird Hestenes-Stiefel + Dai-Yuan Conjugate Gradient.
+        
         line_search: designates line search to use (default: 'Armijo')
             Options:
                 'None': uses exact line search(requires the loss is quadratic)
                 'Armijo': uses Armijo line search
-                'Wolfe': uses Wolfe line search
+                'Strong Wolfe': uses Strong Wolfe line search
+        
         c1: sufficient decrease constant in (0, 1) (default: 1e-4)
+        
         c2: curvature condition constant in (0, 1) (default: 0.1)
+        
         lr: initial step length of Line Search (default: 1)
+        
         rho: contraction factor of Line Search (default: 0.5)
-        eta: adjustment factor of Wolfe Line Search's step (default: 5)
+
         max_ls: maximum number of line search steps permitted (default: 10)
     
     Example:
         >>> import ncg_optimizer as optim
-        >>> optimizer = optim.HS_DY(
+        >>> optimizer = optim.BASIC(
         >>>     model.parameters(), eps = 1e-3, method = 'PRP',
         >>>     line_search = 'Armijo', c1 = 1e-4, c2 = 0.4,
         >>>     lr = 1, rho = 0.5, eta = 5,  max_ls = 10)
@@ -64,7 +74,6 @@ class BASIC(Optimizer):
         c2 = 0.4,
         lr = 1,
         rho = 0.5,
-        eta = 5,
         max_ls = 10,
     ):
         if eps < 0.0:
@@ -84,7 +93,7 @@ class BASIC(Optimizer):
 
         if line_search not in [
             'Armijo',
-            'Wolfe', 
+            'Strong_Wolfe',
             'None',
             ]:
             raise ValueError("Invalid line search: {}".format(line_search))
@@ -103,9 +112,6 @@ class BASIC(Optimizer):
         if not (0.0 < rho < 1.0):
             raise ValueError('Invalid rho value: {}'.format(rho))
 
-        if not (1.0 < eta):
-            raise ValueError('Invalid eta value: {}'.format(eta))
-
         if max_ls % 1 != 0 or max_ls <= 0:
             raise ValueError('Invalid max_ls value: {}'.format(max_ls))
 
@@ -117,7 +123,6 @@ class BASIC(Optimizer):
             c2 = c2,
             lr = lr,
             rho = rho,
-            eta = eta,
             max_ls = max_ls,
         )
 
@@ -143,7 +148,7 @@ class BASIC(Optimizer):
         alpha = rdotr / torch.matmul(d, z)
 
         return alpha
-
+    
     def step(self, closure=None):
         r"""Performs a single optimization step (parameter update).
 
@@ -176,7 +181,6 @@ class BASIC(Optimizer):
                 c2 = group['c2']
                 lr = group['lr']
                 rho = group['rho']
-                eta = group['eta']
                 max_ls = group['max_ls']
 
                 if len(state) == 0:
@@ -266,9 +270,8 @@ class BASIC(Optimizer):
                 elif line_search == 'Armijo':
                     state['alpha'] = Armijo(closure, p, state['g'], state['d'], state['alpha'], rho, c1, max_ls)
 
-                elif line_search == 'Wolfe':
-                    state['alpha'] = Wolfe(closure, p, state['d'], state['alpha'], c1, c2, eta, state['step'], max_ls)
-                    state['step'] = state['step'] + 1
+                elif line_search == 'Strong_Wolfe':                    
+                    state['alpha'] = Strong_Wolfe(closure, p, lr, state['d'], c1, c2)
 
                 p.data.add_(state['d'], alpha=state['alpha'])
 

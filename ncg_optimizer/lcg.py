@@ -40,7 +40,8 @@ class LCG(Optimizer):
 
 
     def step(self, closure=None):
-        r"""Performs a single optimization step (parameter update).
+        """
+        Performs a single optimization step (parameter update).
 
         Arguments:
             closure (callable): A closure that reevaluates the model and
