@@ -29,8 +29,8 @@ jobs:
         --outdir dist/
         .
 
-    - name: Codecov
-      uses: codecov/codecov-action@v2
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODE_COV_TOKEN }}
         files: ./coverage.xml
