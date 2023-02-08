@@ -1,6 +1,15 @@
 =============
 NCG-optimizer
 =============
+.. image:: https://github.com/RyunMi/NCG-optimizer/workflows/CI/badge.svg
+    :target: https://github.com/RyunMi/NCG-optimizer/actions?query=workflow%3ACI
+    :alt: GitHub Actions status for master branch
+.. image:: https://img.shields.io/pypi/pyversions/ncg-optimizer.svg
+    :target: https://pypi.org/project/ncg-optimizer
+.. image:: https://img.shields.io/pypi/v/ncg-optimizer.svg
+    :target: https://pypi.python.org/pypi/ncg-optimizer
+.. image:: https://pepy.tech/badge/ncg-optimizer
+    :target: https://pepy.tech/project/ncg-optimizer
 
 **NCG-optimizer** is a set of optimizer about *nonlinear conjugate gradient* in Pytorch.
 
