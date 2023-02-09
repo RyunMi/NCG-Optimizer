@@ -72,7 +72,7 @@ optimizers = [
 def test_benchmark_function(case, optimizer_config):
     func, initial_state, min_loc = case
     optimizer_class, config, iterations = optimizer_config
-
+    
     x = torch.tensor(initial_state).requires_grad_(True)
     x_min = torch.tensor(min_loc)
     optimizer = optimizer_class([x], **config)
