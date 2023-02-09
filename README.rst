@@ -73,8 +73,8 @@ The generalized Wolfe or Armijo inexact line search FR method is globally conver
         
         optimizer = optim.BASIC(
             model.parameters(), method = 'FR',
-            line_search = 'Wolfe', c1 = 1e-4, 
-            c2 = 0.5, lr = 0.2, eta = 5,)
+            line_search = 'Strong_Wolfe', c1 = 1e-4, 
+            c2 = 0.5, lr = 0.2, max_ls = 25)
         def closure():
             optimizer.zero_grad()
             loss_fn(model(input), target).backward()
@@ -134,8 +134,8 @@ The HS$^+$ method with the strong Wolfe ( $0 < c_2 < \\frac{1}{3}$ ) inexact lin
 
         optimizer = optim.BASIC(
             model.parameters(), method = 'HS',
-            line_search = 'Wolfe', c1 = 1e-4, 
-            c2 = 0.4, lr = 0.2, eta = 5,)
+            line_search = 'Strong_Wolfe', c1 = 1e-4, 
+            c2 = 0.4, lr = 0.2, max_ls = 25,)
         def closure():
             optimizer.zero_grad()
             loss_fn(model(input), target).backward()
@@ -217,8 +217,8 @@ The DY method using the Wolfe inexact line search method converges globally for 
 
         optimizer = optim.BASIC(
             model.parameters(), method = 'DY',
-            line_search = 'Wolfe', c1 = 1e-4, 
-            c2 = 0.9, lr = 0.2, eta = 5,)
+            line_search = 'Strong_Wolfe', c1 = 1e-4, 
+            c2 = 0.9, lr = 0.2, max_ls = 25,)
         def closure():
             optimizer.zero_grad()
             loss_fn(model(input), target).backward()
@@ -246,8 +246,8 @@ The HZ$^+$ method using Armijo inexact line search method converges globally for
 
         optimizer = optim.BASIC(
             model.parameters(), method = 'HZ',
-            line_search = 'Wolfe', c1 = 1e-4, 
-            c2 = 0.9, lr = 0.2, eta = 5,)
+            line_search = 'Strong_Wolfe', c1 = 1e-4, 
+            c2 = 0.9, lr = 0.2, max_ls = 25,)
         def closure():
             optimizer.zero_grad()
             loss_fn(model(input), target).backward()

@@ -56,7 +56,7 @@ class BASIC(Optimizer):
         >>> optimizer = optim.BASIC(
         >>>     model.parameters(), eps = 1e-3, method = 'PRP',
         >>>     line_search = 'Armijo', c1 = 1e-4, c2 = 0.4,
-        >>>     lr = 1, rho = 0.5, eta = 5,  max_ls = 10)
+        >>>     lr = 1, rho = 0.5, max_ls = 10)
         >>> def closure():
         >>>     optimizer.zero_grad()
         >>>     loss_fn(model(input), target).backward()

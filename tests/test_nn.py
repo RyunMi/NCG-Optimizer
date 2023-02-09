@@ -48,14 +48,14 @@ def ids(v):
 
 
 optimizers = [
-    (optim.BASIC,{'method': 'FR', 'line_search': 'Strong_Wolfe','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'eta': 5}, 500),
-    (optim.BASIC,{'method': 'PRP', 'line_search': 'Strong_Wolfe', 'c1': 1e-4, 'c2': 0.9, 'lr': 0.5, 'eta': 5}, 500),
-    (optim.BASIC,{'method': 'HS', 'line_search': 'Strong_Wolfe','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'eta': 5}, 500),
-    (optim.BASIC,{'method': 'CD', 'line_search': 'Strong_Wolfe', 'c1': 1e-4, 'c2': 0.9, 'lr': 0.5, 'eta': 5}, 500),
-    (optim.BASIC,{'method': 'DY', 'line_search': 'Strong_Wolfe', 'c1': 1e-4, 'c2': 0.9, 'lr': 0.5, 'eta': 5}, 500),
-    (optim.BASIC,{'method': 'LS', 'line_search': 'Strong_Wolfe','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'eta': 5}, 500),
-    (optim.BASIC,{'method': 'HZ', 'line_search': 'Strong_Wolfe','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'eta': 5}, 500),
-    (optim.BASIC,{'method': 'HS-DY', 'line_search': 'Strong_Wolfe', 'c1': 1e-4, 'c2': 0.9, 'lr': 0.5, 'eta': 5}, 500),
+    (optim.BASIC,{'method': 'FR', 'line_search': 'Strong_Wolfe','c1': 1e-4,'c2': 0.9, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'PRP', 'line_search': 'Strong_Wolfe', 'c1': 1e-4, 'c2': 0.9, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'HS', 'line_search': 'Strong_Wolfe','c1': 1e-4,'c2': 0.9, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'CD', 'line_search': 'Strong_Wolfe', 'c1': 1e-4, 'c2': 0.9, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'DY', 'line_search': 'Strong_Wolfe', 'c1': 1e-4, 'c2': 0.9, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'LS', 'line_search': 'Strong_Wolfe','c1': 1e-4,'c2': 0.9, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'HZ', 'line_search': 'Strong_Wolfe','c1': 1e-4,'c2': 0.9, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'HS-DY', 'line_search': 'Strong_Wolfe', 'c1': 1e-4, 'c2': 0.9, 'lr': 0.5}, 500),
     (optim.BASIC,{'method': 'FR', 'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
     (optim.BASIC,{'method': 'PRP', 'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
     (optim.BASIC,{'method': 'HS', 'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
