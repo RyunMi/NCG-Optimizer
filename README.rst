@@ -10,8 +10,12 @@ NCG-optimizer
     :target: https://pypi.python.org/pypi/ncg-optimizer
 .. image:: https://pepy.tech/badge/ncg-optimizer
     :target: https://pepy.tech/project/ncg-optimizer
+.. image:: https://img.shields.io/badge/License-Apache_2.0-blue.svg
+    :target: https://opensource.org/licenses/Apache-2.0
 
 **NCG-optimizer** is a set of optimizer about *nonlinear conjugate gradient* in Pytorch.
+
+Inspired by `jettify <https://github.com/jettify/pytorch-optimizer>`__ and `kozistr <https://github.com/jettify/pytorch-optimizer>`__.
 
 Install
 =======
