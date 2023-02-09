@@ -96,7 +96,7 @@ $$ \\beta_k^{PRP}=\\frac{g_{k}^{T}(g_{k}-g_{k-1})}{\\lVert g_{k-1}\\rVert^2}$$
 The convergence analysis of the PRP method is often closely related to the selected line search. When the step size $s_k = x_{k+1} - x_{k} \\to 0$ is regarded as a measure of global convergence, 
 the PRP method of exact line search is used to converge the uniformly convex function under this benchmark. 
 The PRP method using Armijo-type inexact line search method converges globally for general nonconvex functions. 
-The PRP$^+$ method using the strong Wolfe($0 < c_2 < \\frac{1}{4}$) inexact line search method converges globally for general nonconvex functions. 
+The PRP $^+$ method using the strong Wolfe( $0 < c_2 < \\frac{1}{4}$ ) inexact line search method converges globally for general nonconvex functions. 
 The PRP method with some constant step size factor ( involving Lipschitz constant ) inexact line search method converges globally for general nonconvex functions.
 
 .. code-block:: python
@@ -127,7 +127,7 @@ However, the theoretical properties and computational performance of the HS meth
 The convergence analysis of the HS method is often closely related to the selected line search. 
 If the $f(x)$ level set is bounded, its derivative is Lipschitz continuous and satisfies the sufficient descent condition, 
 then the HS method with Wolfe inexact line search method is globally convergent. 
-The HS$^+$ method with the strong Wolfe ( $0 < c_2 < \\frac{1}{3}$ ) inexact line search method converges globally for general nonconvex functions.
+The HS $^+$ method with the strong Wolfe ( $0 < c_2 < \\frac{1}{3}$ ) inexact line search method converges globally for general nonconvex functions.
 
 .. code-block:: python
 
@@ -239,7 +239,7 @@ $$
 
 The convergence analysis of the HZ method is often closely related to the selected line search. 
 The HZ method with ( strong ) Wolfe inexact line search method converges globally for general nonconvex functions. 
-The HZ$^+$ method using Armijo inexact line search method converges globally for general nonconvex functions.
+The HZ $^+$ method using Armijo inexact line search method converges globally for general nonconvex functions.
 
 .. code-block:: python
 
@@ -333,6 +333,22 @@ $$
 
 .. image:: https://raw.githubusercontent.com/RyunMi/NCG-optimizer/master/docs/Zoom.png
         :width: 800px
+
+Citation
+========
+Please cite original authors of optimization algorithms. If you like this software:
+
+::
+
+    @software{Mi_ncgoptimizer,
+    	title        = {{ncg-optimizer -- a set of optimizer about nonlinear conjugate gradient in Pytorch.}},
+    	author       = {Kerun Mi},
+    	year         = 2023,
+    	month        = 2,
+    	version      = {0.1.0}}
+
+Or you can get from "cite this repository" button.
+
 
 References
 ==========

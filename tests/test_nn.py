@@ -99,7 +99,7 @@ def test_basic_nn_modeloptimizer_config(optimizer_config):
             loss = loss.mean()
             
             loss.backward(create_graph=True)
-            
+            #nn.utils.clip_grad_norm_(model.parameters(), max_norm=20, norm_type=2)
             return loss
 
         optimizer.step(closure)
