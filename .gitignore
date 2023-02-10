@@ -5,3 +5,7 @@ _build
 
 # python
 __pycache__
+
+# appendix
+data/MNIST
+examples/runs

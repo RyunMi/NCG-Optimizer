@@ -3,8 +3,6 @@ import torch
 from torch.optim.optimizer import Optimizer
 
 from ncg_optimizer.Line_Search import Armijo
-#from ncg_optimizer.Line_Search import Wolfe
-
 from ncg_optimizer.Line_Search import Strong_Wolfe
 
 import copy
@@ -129,7 +127,7 @@ class BASIC(Optimizer):
         super(BASIC, self).__init__(params, defaults)
 
     def _get_A(p, d_p):
-        print(d_p)
+
         A = torch.stack(
                         [torch.autograd.grad(
                             d_p[i],
