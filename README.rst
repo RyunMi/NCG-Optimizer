@@ -329,6 +329,7 @@ The Strong Wolfe criterion reduces the constraint to less than 0 on the basis of
 $$
 f\\left(x_k+\\alpha_k d_k\\right) \\leqslant f\\left(x_k\\right)+c_1 \\alpha_k d_k^T g_k
 $$
+
 $$
 \|\\nabla f\\left(x_k+\\alpha d_k\\right)^T d_k\| \\leq -c_2 \\nabla f_k^T d_k  
 $$
