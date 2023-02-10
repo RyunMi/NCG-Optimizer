@@ -313,13 +313,11 @@ In addition, in order to prevent the step size from being too small and ensure t
 the second inequality is introduced, so there is :
 
 $$
-\\begin{gather*}
 f\\left(x_k+\\alpha_k d_k\\right) \\leqslant f\\left(x_k\\right)+c_1 \\alpha_k d_k^T g_k
 $$
 
 $$
 \\nabla f\\left(x_k+\\alpha d_k\\right)^T d_k \\geq c_2 \\nabla f_k^T d_k  
-\\end{gather*}
 $$
 
 where the $c_2 \\in (c_1, 1)$.
@@ -329,12 +327,10 @@ Strong Wolfe Line Search [#NO1]_ [#MF]_
 The Strong Wolfe criterion reduces the constraint to less than 0 on the basis of the original Wolfe criterion to ensure the true approximation of the exact line search :
 
 $$
-\\begin{gather*}
 f\\left(x_k+\\alpha_k d_k\\right) \\leqslant f\\left(x_k\\right)+c_1 \\alpha_k d_k^T g_k
 $$
 $$
 \|\\nabla f\\left(x_k+\\alpha d_k\\right)^T d_k\| \\leq -c_2 \\nabla f_k^T d_k  
-\\end{gather*}
 $$
 
 .. image:: https://raw.githubusercontent.com/RyunMi/NCG-optimizer/master/docs/Strong_Wolfe.png
