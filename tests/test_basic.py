@@ -6,7 +6,7 @@ import math
 
 import ncg_optimizer as optim
 
-MyDevice = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+#MyDevice = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 def quadratic(tensor):
     x, y = tensor

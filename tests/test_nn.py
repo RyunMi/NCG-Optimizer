@@ -7,6 +7,7 @@ from torch import nn
 
 import ncg_optimizer as optim
 
+#MyDevice = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 def make_dataset(seed=42):
     rng = np.random.RandomState(seed)
