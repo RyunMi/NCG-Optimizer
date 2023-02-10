@@ -364,4 +364,4 @@ References
 .. [#NO2] Nocedal J, Wright S J. Conjugate gradient methods[J]. Numerical optimization, 2006: 101-134. 
 .. [#CGNO] Pytlak R. Conjugate gradient algorithms in nonconvex optimization[M]. Springer Science & Business Media, 2008.
 .. [#HZ] Hager W W, Zhang H. A new conjugate gradient method with guaranteed descent and an efficient line search[J]. SIAM Journal on optimization, 2005, 16(1): 170-192.
-.. [#MF] M. Schmidt. minFunc: unconstrained differentiable multivariate optimization in Matlab. http://www.cs.ubc.ca/~schmidtm/Software/minFunc.html, 2005.
+.. [#MF] Schmidt M. minFunc: unconstrained differentiable multivariate optimization in Matlab[J]. Software available at http://www. cs. ubc. ca/~ schmidtm/Software/minFunc. htm, 2005.
