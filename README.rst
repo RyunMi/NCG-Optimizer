@@ -15,7 +15,7 @@ NCG-optimizer
 
 **NCG-optimizer** is a set of optimizer about *nonlinear conjugate gradient* in Pytorch.
 
-Inspired by `jettify <https://github.com/jettify/pytorch-optimizer>`__ and `kozistr <https://github.com/jettify/pytorch-optimizer>`__.
+Inspired by `jettify <https://github.com/jettify/pytorch-optimizer>`__ and `kozistr <https://github.com/kozistr/pytorch_optimizer>`__.
 
 Install
 =======
