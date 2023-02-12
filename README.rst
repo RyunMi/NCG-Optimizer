@@ -309,7 +309,7 @@ Wolfe Line Search(Coming Soon...)
 """""""""""""""""""""""""""""""""
 In the following two formulas, the first inequality is a overwrite of the Armijo criterion.
 In addition, in order to prevent the step size from being too small and ensure that the objective function decreases sufficiently, 
-the second inequality is introduced, so there is :
+the second inequality is introduced, so there is:
 
 $$
 f\\left(x_k+\\alpha_k d_k\\right) \\leqslant f\\left(x_k\\right)+c_1 \\alpha_k d_k^T g_k
