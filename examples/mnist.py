@@ -131,7 +131,7 @@ class Config:
         batch_size: int = 64,
         test_batch_size: int = 1000,
         epochs: int = 15,
-        lr: float = 0.5,
+        lr: float = 0.1,
         no_cuda: bool = True,
         seed: int = 42,
         log_interval: int = 10,
