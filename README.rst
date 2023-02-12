@@ -49,8 +49,8 @@ The Linear Conjugate Gradient(**LCG**) method is only applicable to linear equat
         optimizer = optim.LCG(model.parameters(), eps=1e-5)
         def closure():
             optimizer.zero_grad()
-            loss_fn(model(input), target).backward()
-            return loss_fn
+            loss(model(input), target).backward()
+            return loss
         optimizer.step(closure)
 
 Nonlinear Conjugate Gradient
@@ -81,8 +81,8 @@ The generalized Wolfe or Armijo inexact line search FR method is globally conver
             c2 = 0.5, lr = 0.2, max_ls = 25)
         def closure():
             optimizer.zero_grad()
-            loss_fn(model(input), target).backward()
-            return loss_fn
+            loss(model(input), target).backward()
+            return loss
         optimizer.step(closure)
 
 Polak-Ribiere-Polyak Method
@@ -112,8 +112,8 @@ The PRP method with some constant step size factor ( involving Lipschitz constan
             c2 = 0.9, lr = 1, rho = 0.5,)
         def closure():
             optimizer.zero_grad()
-            loss_fn(model(input), target).backward()
-            return loss_fn
+            loss(model(input), target).backward()
+            return loss
         optimizer.step(closure)
 
 Hestenes-Stiefel Method
@@ -142,8 +142,8 @@ The HS $^+$ method with the strong Wolfe ( $0 < c_2 < \\frac{1}{3}$ ) inexact li
             c2 = 0.4, lr = 0.2, max_ls = 25,)
         def closure():
             optimizer.zero_grad()
-            loss_fn(model(input), target).backward()
-            return loss_fn
+            loss(model(input), target).backward()
+            return loss
         optimizer.step(closure)
 
 Conjugate Descent Method
@@ -170,8 +170,8 @@ The CD method using Armijo inexact line search method converges globally for gen
             c2 = 0.9, lr = 1, rho = 0.5,)
         def closure():
             optimizer.zero_grad()
-            loss_fn(model(input), target).backward()
-            return loss_fn
+            loss(model(input), target).backward()
+            return loss
         optimizer.step(closure)
 
 Liu-Storey Method
@@ -196,8 +196,8 @@ The LS method using Armijo-type inexact line search method converges globally fo
             c2 = 0.9, lr = 1, rho = 0.5,)
         def closure():
             optimizer.zero_grad()
-            loss_fn(model(input), target).backward()
-            return loss_fn
+            loss(model(input), target).backward()
+            return loss
         optimizer.step(closure)
 
 
@@ -225,8 +225,8 @@ The DY method using the Wolfe inexact line search method converges globally for 
             c2 = 0.9, lr = 0.2, max_ls = 25,)
         def closure():
             optimizer.zero_grad()
-            loss_fn(model(input), target).backward()
-            return loss_fn
+            loss(model(input), target).backward()
+            return loss
         optimizer.step(closure)
 
 Hager-Zhang Method [#HZ]_
@@ -254,8 +254,8 @@ The HZ $^+$ method using Armijo inexact line search method converges globally fo
             c2 = 0.9, lr = 0.2, max_ls = 25,)
         def closure():
             optimizer.zero_grad()
-            loss_fn(model(input), target).backward()
-            return loss_fn
+            loss(model(input), target).backward()
+            return loss
         optimizer.step(closure)
 
 
@@ -285,8 +285,8 @@ and the performance effect is also better than the PRP method.
             c2 = 0.9 lr = 1, rho = 0.5,)
         def closure():
             optimizer.zero_grad()
-            loss_fn(model(input), target).backward()
-            return loss_fn
+            loss(model(input), target).backward()
+            return loss
         optimizer.step(closure)
 
 Line Search
