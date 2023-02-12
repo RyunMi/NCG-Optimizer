@@ -19,8 +19,7 @@ class BASIC(Optimizer):
         params: iterable of parameters to optimize or dicts defining
             parameter groups
         
-        eps: term added to the denominator to improve
-            numerical stability (default: 1e-3)
+        eps: Parameters controlling iteration precision (default: 1e-3)
        
          method: select basic congjugate gradient (default: 'PRP)
             Optios:
@@ -45,7 +44,7 @@ class BASIC(Optimizer):
         
         lr: initial step length of Line Search (default: 1)
         
-        rho: contraction factor of Line Search (default: 0.5)
+        rho: contraction factor of Armijo Line Search (default: 0.5)
 
         max_ls: maximum number of line search steps permitted (default: 10)
     

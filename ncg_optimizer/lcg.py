@@ -12,8 +12,7 @@ class LCG(Optimizer):
     Arguments:
         params: iterable of parameters to optimize or dicts defining
             parameter groups
-        eps: term added to the denominator to improve
-            numerical stability (default: 1e-5)
+        eps: Parameters controlling iteration precision (default: 1e-5)
     
     Example:
         >>> import ncg_optimizer as optim
