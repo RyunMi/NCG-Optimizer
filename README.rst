@@ -302,7 +302,7 @@ $$
 
 Among them, $c_1\\in (0,1)$ is generally taken as $c_1 = 10^{-4}$.
 
-.. image:: https://raw.githubusercontent.com/RyunMi/NCG-optimizer/master/docs/Armijo.png
+.. image:: https://raw.githubusercontent.com/RyunMi/NCG-optimizer/master/docs/ArmijoLS.png
         :width: 800px
 
 Wolfe Line Search(Coming Soon...)
