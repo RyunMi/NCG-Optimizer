@@ -46,7 +46,7 @@ keywords = [
 setup(
     name='ncg-optimizer',
     version=_read_version(),
-    description='Pytorch optimizer based on nonlinear conjugate gradient method',
+    description='PyTorch optimizer based on nonlinear conjugate gradient method',
     long_description='\n\n'.join((_read('README.rst'), _read('CHANGES.rst'))),
     long_description_content_type='text/x-rst',
     url='https://github.com/RyunMi/NCG-optimizer',

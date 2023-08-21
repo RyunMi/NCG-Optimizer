@@ -1,4 +1,4 @@
-"""ncg-optimizer -- a set of optimizer about nonliear conjugate gradient in Pytorch.
+"""ncg-optimizer -- a set of optimizer about nonliear conjugate gradient in PyTorch.
 API and usage patterns are the same as `torch.optim`__
 Example
 -------
@@ -24,7 +24,7 @@ __all__ = (
     'LCG',
     'BASIC'
 )
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 
 
 _package_opts = [

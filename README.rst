@@ -1,5 +1,5 @@
 =============
-NCG-optimizer
+NCG-Optimizer
 =============
 .. image:: https://github.com/RyunMi/NCG-optimizer/workflows/CI/badge.svg
     :target: https://github.com/RyunMi/NCG-optimizer/actions?query=workflow%3ACI
@@ -8,12 +8,12 @@ NCG-optimizer
     :target: https://pypi.org/project/ncg-optimizer
 .. image:: https://img.shields.io/pypi/v/ncg-optimizer.svg
     :target: https://pypi.python.org/pypi/ncg-optimizer
-.. image:: https://pepy.tech/badge/ncg-optimizer
+.. image:: https://static.pepy.tech/badge/ncg-optimizer
     :target: https://pepy.tech/project/ncg-optimizer
 .. image:: https://img.shields.io/badge/License-Apache_2.0-blue.svg
     :target: https://opensource.org/licenses/Apache-2.0
 
-**NCG-optimizer** is a set of optimizer about *nonlinear conjugate gradient* in Pytorch.
+**NCG-Optimizer** is a set of optimizer about *nonlinear conjugate gradient* in PyTorch.
 
 Inspired by `jettify <https://github.com/jettify/pytorch-optimizer>`__ and `kozistr <https://github.com/kozistr/pytorch_optimizer>`__.
 
@@ -346,7 +346,7 @@ Please cite original authors of optimization algorithms. If you like this softwa
 ::
 
     @software{Mi_ncgoptimizer,
-    	title        = {{ncg-optimizer -- a set of optimizer about nonlinear conjugate gradient in Pytorch.}},
+    	title        = {{NCG-Optimizer -- a set of optimizer about nonlinear conjugate gradient in PyTorch.}},
     	author       = {Kerun Mi},
     	year         = 2023,
     	month        = 2,
