@@ -1,4 +1,4 @@
-=============
+ApostolosGreece=============
 NCG-Optimizer
 =============
 .. image:: https://github.com/RyunMi/NCG-optimizer/workflows/CI/badge.svg
@@ -306,10 +306,11 @@ Among them, $c_1\\in (0,1)$ is generally taken as $c_1 = 10^{-4}$.
         :width: 800px
 
 Curvature Line Search
-""""""""""""""""""
+"""""""""""""""""""""
 This condition guarantees that the increment of the obective value is enough big, i.e. it prevents the searching process from getting stuck at the same point:
 
 $$
+f'\\left(x_k+\\alpha_k d_k\\right)^T d_k \\leqslant c_2 f'\\left(x_k\\right) d_k
 $$
 
 Among them, $c_1\\in (c_1,1)$ is assigned on the order of 0.1$.
