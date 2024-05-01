@@ -305,6 +305,18 @@ Among them, $c_1\\in (0,1)$ is generally taken as $c_1 = 10^{-4}$.
 .. image:: https://raw.githubusercontent.com/RyunMi/NCG-optimizer/master/docs/ArmijoLS.png
         :width: 800px
 
+Curvature Line Search
+""""""""""""""""""
+This condition guarantees that the increment of the obective value is enough big, i.e. it prevents the searching process from getting stuck at the same point:
+
+$$
+$$
+
+Among them, $c_1\\in (c_1,1)$ is assigned on the order of 0.1$.
+
+.. image:: https://raw.githubusercontent.com/ApostolosGreece/NCG-optimizer/master/docs/Curvature.png
+        :width: 800px
+
 Wolfe Line Search(Coming Soon...)
 """""""""""""""""""""""""""""""""
 In the following two formulas, the first inequality is a overwrite of the Armijo criterion.
