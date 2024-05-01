@@ -108,7 +108,7 @@ class BASIC(Optimizer):
             ]:
             raise ValueError('Invalid line search: {}'.format(line_search))
         elif line_search == 'None':
-            warnings.warn("Unless loss is a quadratic function, this is not correct.")
+            warnings.warn("Unless loss is a quadratic function, this is not correct")
 
         if not (0.0 < c1 < 1.0):
             raise ValueError('Invalid c1 value: {}'.format(c1))
