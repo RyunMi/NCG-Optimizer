@@ -297,7 +297,7 @@ In order to satisfy the condition that the decrease of the function is at least 
 there are:
 
 $$
-f\\left(x_k+\\alpha_k d_k\\right) \\leqslant f\\left(x_k\\right)+c_1 \\alpha_k d_k^T g_k
+f\\left(x_k + \\alpha_k d_k\\right) \\leqslant f\\left(x_k\\right) + c_1 \\alpha_k d_k^T f'\\left(x_k\\right)
 $$
 
 Among them, $c_1\\in (0,1)$ is generally taken as $c_1 = 10^{-4}$.
@@ -310,46 +310,66 @@ Curvature Line Search
 This condition guarantees that the increment of the obective value is enough big, i.e. it prevents the searching process from getting stuck at the same point:
 
 $$
-f'\\left(x_k+\\alpha_k d_k\\right)^T d_k \\leqslant c_2 f'\\left(x_k\\right) d_k
+f'\\left(x_k + \\alpha_k d_k\\right)^T d_k \\geq c_2  f'\\left(x_k\\right) d_k
 $$
 
-Among them, $c_1\\in (c_1,1)$ is assigned on the order of 0.1$.
+Among them, $c_1\\in (c_1,1)$ is assigned on the order of 0.1.
 
 .. image:: https://raw.githubusercontent.com/ApostolosGreece/NCG-optimizer/master/docs/Curvature.png
         :width: 800px
 
-Wolfe Line Search(Coming Soon...)
-"""""""""""""""""""""""""""""""""
+Weak Wolfe Line Search
+""""""""""""""""""""""
 In the following two formulas, the first inequality is a overwrite of the Armijo criterion.
 In addition, in order to prevent the step size from being too small and ensure that the objective function decreases sufficiently, 
 the second inequality is introduced, so there is:
 
 $$
-f\\left(x_k+\\alpha_k d_k\\right) \\leqslant f\\left(x_k\\right)+c_1 \\alpha_k d_k^T g_k
+f\\left(x_k + \\alpha_k d_k\\right) \\leqslant f\\left(x_k\\right) + c_1 \\alpha_k d_k^T f'\\left(x_k\\right)
 $$
 
 $$
-\\nabla f\\left(x_k+\\alpha d_k\\right)^T d_k \\geq c_2 \\nabla f_k^T d_k  
+\\nabla f\\left(x_k + \\alpha d_k\\right)^T d_k \\geq c_2 \\nabla f_k^T d_k  
 $$
 
-where the $c_2 \\in (c_1, 1)$.
+where: $c_1 \\in (0, 1)$ and $c_2 \\in (c_1, 1)$.
+
+.. image:: https://raw.githubusercontent.com/ApostolosGreece/NCG-optimizer/master/docs/Weak_Wolfe.png
+        :width: 800px
 
 Strong Wolfe Line Search [#NO1]_ [#MF]_
 """""""""""""""""""""""""""""""""""""""
 The Strong Wolfe criterion reduces the constraint to less than 0 on the basis of the original Wolfe criterion to ensure the true approximation of the exact line search :
 
 $$
-f\\left(x_k+\\alpha_k d_k\\right) \\leqslant f\\left(x_k\\right)+c_1 \\alpha_k d_k^T g_k
+f\\left(x_k+\\alpha_k d_k\\right) \\leqslant f\\left(x_k\\right) + c_1 \\alpha_k d_k^T g_k
 $$
 
 $$
-\|\\nabla f\\left(x_k+\\alpha d_k\\right)^T d_k\| \\leq -c_2 \\nabla f_k^T d_k  
+\|\\nabla f\\left(x_k + \\alpha d_k\\right)^T d_k\| \\leq -c_2 \\nabla f_k^T d_k  
 $$
 
 .. image:: https://raw.githubusercontent.com/RyunMi/NCG-optimizer/master/docs/Strong_Wolfe.png
         :width: 800px
 
 .. image:: https://raw.githubusercontent.com/RyunMi/NCG-optimizer/master/docs/Zoom.png
+        :width: 800px
+
+Goldstein
+"""""""""
+The Goldstein conditions is another very popular algorithm:
+
+$$
+f\\left(x_k+\\alpha_k d_k\\right) \\leqslant f\\left(x_k\\right) + c \\alpha_k d_k^T f'\\left(x_k\\right)
+$$
+
+$$
+f\\left(x_k+\\alpha_k d_k\\right) \\geq f\\left(x_k\\right) + (1-c) \\alpha_k d_k^T f'\\left(x_k\\right)
+$$
+
+Among them, $c\\in (0,0.5)$ so that:
+
+.. image:: https://raw.githubusercontent.com/ApostolosGreece/NCG-optimizer/master/docs/Goldstein.png
         :width: 800px
 
 Citation
