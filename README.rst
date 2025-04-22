@@ -305,7 +305,7 @@ Among them, $c_1\\in (0,1)$ is generally taken as $c_1 = 10^{-4}$.
         :width: 800px
 
 Wolfe Line Search (Coming Soon...)
-"""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""
 In the following two formulas, the first inequality is a overwrite of the Armijo criterion.
 In addition, in order to prevent the step size from being too small and ensure that the objective function decreases sufficiently, 
 the second inequality is introduced, so there is:
