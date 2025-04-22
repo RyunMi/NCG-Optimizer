@@ -304,7 +304,7 @@ Among them, $c_1\\in (0,1)$ is generally taken as $c_1 = 10^{-4}$.
 .. image:: https://raw.githubusercontent.com/RyunMi/NCG-optimizer/master/docs/ArmijoLS.png
         :width: 800px
 
-Wolfe Line Search(Coming Soon...)
+Wolfe Line Search (Coming Soon...)
 """""""""""""""""""""""""""""""""
 In the following two formulas, the first inequality is a overwrite of the Armijo criterion.
 In addition, in order to prevent the step size from being too small and ensure that the objective function decreases sufficiently, 
@@ -347,9 +347,9 @@ Please cite original authors of optimization algorithms. If you like this softwa
     @software{Mi_ncgoptimizer,
     	title        = {{NCG-Optimizer -- a set of optimizer about nonlinear conjugate gradient in PyTorch.}},
     	author       = {Kerun Mi},
-    	year         = 2023,
-    	month        = 2,
-    	version      = {0.1.0}}
+    	year         = 2025,
+    	month        = 4,
+    	version      = {0.2.1}}
 
 Or you can get from "cite this repository" button.
 
