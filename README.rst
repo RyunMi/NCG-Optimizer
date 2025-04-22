@@ -1,6 +1,8 @@
 =============
 NCG-Optimizer
 =============
+.. image::https://github.com/RyunMi/NCG-optimizer/actions/workflows/publish.yml/badge.svg
+    :target:https://github.com/RyunMi/NCG-optimizer/actions?query=workflow: GitHub Actions status for master branch
 .. image:: https://img.shields.io/pypi/pyversions/ncg-optimizer.svg
     :target: https://pypi.org/project/ncg-optimizer
 .. image:: https://img.shields.io/pypi/v/ncg-optimizer.svg
