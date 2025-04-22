@@ -349,7 +349,7 @@ Please cite original authors of optimization algorithms. If you like this softwa
     	author       = {Kerun Mi},
     	year         = 2025,
     	month        = 4,
-    	version      = {0.2.1}}
+    	version      = {0.2.0}}
 
 Or you can get from "cite this repository" button.
 
