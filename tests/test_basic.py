@@ -1,9 +1,22 @@
+
+##  Run this example by executing the next command:
+##    pytest -k benchmark -v 2>&1 | tee test_basic_output.txt
+##
+##  Comparison:
+##          |--------------|-----------------|--------------|------------|---------|------------|
+##          |              |  Strong Wolfe   |  Weak Wolfe  |  Goldstein | Armijo  |  Curvature |
+##          |--------------|-----------------|--------------|------------|---------|------------|
+##          |  Quadratic   |       8/8       |     8/8      |     8/8    |   8/8   |     8/8    |
+##          |  Rosenbrock  |       8/8       |     7/8      |     8/8    |   3/8   |     0/8    |
+##          |    Beale     |       6/8       |     5/8      |     6/8    |   4/8   |     0/8    |
+##          |  Rastrigin   |       5/8       |     5/8      |     5/8    |   5/8   |     0/8    |
+##          |--------------|-----------------|--------------|------------|---------|------------|
+##          |   Summary    |      27/32      |    25/32     |    27/32   |  20/32  |     8/32   |
+##          |--------------|-----------------|--------------|------------|---------|------------|
+
 import torch
-
 import pytest
-
 import math
-
 import ncg_optimizer as optim
 
 #MyDevice = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -49,22 +62,50 @@ def ids(v):
     return n
 
 optimizers = [
-    (optim.BASIC,{'method': 'FR', 'line_search': 'Strong_Wolfe','c1': 1e-4,'c2': 0.9, 'lr': 0.5}, 500),
-    (optim.BASIC,{'method': 'PRP', 'line_search': 'Strong_Wolfe', 'c1': 1e-4, 'c2': 0.9, 'lr': 0.5}, 500),
-    (optim.BASIC,{'method': 'HS', 'line_search': 'Strong_Wolfe','c1': 1e-4,'c2': 0.9, 'lr': 0.5}, 500),
-    (optim.BASIC,{'method': 'CD', 'line_search': 'Strong_Wolfe', 'c1': 1e-4, 'c2': 0.9, 'lr': 0.5}, 500),
-    (optim.BASIC,{'method': 'DY', 'line_search': 'Strong_Wolfe', 'c1': 1e-4, 'c2': 0.9, 'lr': 0.5}, 500),
-    (optim.BASIC,{'method': 'LS', 'line_search': 'Strong_Wolfe','c1': 1e-4,'c2': 0.9, 'lr': 0.5}, 500),
-    (optim.BASIC,{'method': 'HZ', 'line_search': 'Strong_Wolfe','c1': 1e-4,'c2': 0.9, 'lr': 0.5}, 500),
-    (optim.BASIC,{'method': 'HS-DY', 'line_search': 'Strong_Wolfe', 'c1': 1e-4, 'c2': 0.9, 'lr': 0.5}, 500),
-    (optim.BASIC,{'method': 'FR', 'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
-    (optim.BASIC,{'method': 'PRP', 'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
-    (optim.BASIC,{'method': 'HS', 'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
-    (optim.BASIC,{'method': 'CD', 'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
-    (optim.BASIC,{'method': 'DY', 'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
-    (optim.BASIC,{'method': 'LS', 'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 1, 'rho': 0.8}, 500),
-    (optim.BASIC,{'method': 'HZ', 'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
-    (optim.BASIC,{'method': 'HS-DY', 'line_search': 'Armijo','c1': 1e-4,'c2': 0.9, 'lr': 0.5, 'rho': 0.5}, 500),
+    (optim.BASIC,{'method': 'FR', 'line_search': 'Strong_Wolfe', 'c1': 1e-4, 'c2': 0.1, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'PRP', 'line_search': 'Strong_Wolfe', 'c1': 1e-4, 'c2': 0.1, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'HS', 'line_search': 'Strong_Wolfe', 'c1': 1e-4, 'c2': 0.1, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'CD', 'line_search': 'Strong_Wolfe', 'c1': 1e-4, 'c2': 0.1, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'DY', 'line_search': 'Strong_Wolfe', 'c1': 1e-4, 'c2': 0.1, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'LS', 'line_search': 'Strong_Wolfe', 'c1': 1e-4, 'c2': 0.1, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'HZ', 'line_search': 'Strong_Wolfe', 'c1': 1e-4, 'c2': 0.1, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'HS-DY', 'line_search': 'Strong_Wolfe', 'c1': 1e-4, 'c2': 0.1, 'lr': 0.5}, 500),
+
+    (optim.BASIC,{'method': 'FR', 'line_search': 'Weak_Wolfe', 'c1': 1e-4, 'c2': 0.1, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'PRP', 'line_search': 'Weak_Wolfe', 'c1': 1e-4, 'c2': 0.1, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'HS', 'line_search': 'Weak_Wolfe', 'c1': 1e-4, 'c2': 0.1, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'CD', 'line_search': 'Weak_Wolfe', 'c1': 1e-4, 'c2': 0.1, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'DY', 'line_search': 'Weak_Wolfe', 'c1': 1e-4, 'c2': 0.1, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'LS', 'line_search': 'Weak_Wolfe', 'c1': 1e-4, 'c2': 0.1, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'HZ', 'line_search': 'Weak_Wolfe', 'c1': 1e-4, 'c2': 0.1, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'HS-DY', 'line_search': 'Weak_Wolfe', 'c1': 1e-4, 'c2': 0.1, 'lr': 0.5}, 500),
+
+    (optim.BASIC,{'method': 'FR', 'line_search': 'Goldstein', 'c': 0.35, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'PRP', 'line_search': 'Goldstein', 'c': 0.35, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'HS', 'line_search': 'Goldstein', 'c': 0.35, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'CD', 'line_search': 'Goldstein', 'c': 0.35, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'DY', 'line_search': 'Goldstein', 'c': 0.35, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'LS', 'line_search': 'Goldstein', 'c': 0.35, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'HZ', 'line_search': 'Goldstein', 'c': 0.35, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'HS-DY', 'line_search': 'Goldstein', 'c': 0.35, 'lr': 0.5}, 500),
+
+    (optim.BASIC,{'method': 'FR', 'line_search': 'Armijo', 'c1': 1e-4, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'PRP', 'line_search': 'Armijo', 'c1': 1e-4, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'HS', 'line_search': 'Armijo', 'c1': 1e-4, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'CD', 'line_search': 'Armijo', 'c1': 1e-4, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'DY', 'line_search': 'Armijo', 'c1': 1e-4, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'LS', 'line_search': 'Armijo', 'c1': 1e-4, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'HZ', 'line_search': 'Armijo', 'c1': 1e-4, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'HS-DY', 'line_search': 'Armijo', 'c1': 1e-4, 'lr': 0.5}, 500),
+
+    (optim.BASIC,{'method': 'FR', 'line_search': 'Curvature', 'c2': 0.1, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'PRP', 'line_search': 'Curvature', 'c2': 0.1, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'HS', 'line_search': 'Curvature', 'c2': 0.1, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'CD', 'line_search': 'Curvature', 'c2': 0.1, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'DY', 'line_search': 'Curvature', 'c2': 0.1, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'LS', 'line_search': 'Curvature', 'c2': 0.1, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'HZ', 'line_search': 'Curvature', 'c2': 0.1, 'lr': 0.5}, 500),
+    (optim.BASIC,{'method': 'HS-DY', 'line_search': 'Curvature', 'c2': 0.1, 'lr': 0.5}, 500),
 ]
 
 @pytest.mark.parametrize('case', cases, ids=ids)
@@ -79,11 +120,9 @@ def test_benchmark_function(case, optimizer_config):
     
     for _ in range(iterations):
         def closure():
-            optimizer.zero_grad()
-            
+            optimizer.zero_grad()            
             f = func(x)
             f.backward(retain_graph=True, create_graph=True)
-            
             return f
 
         optimizer.step(closure)
