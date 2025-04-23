@@ -290,13 +290,12 @@ and the performance effect is also better than the PRP method.
 
 Line Search
 ^^^^^^^^^^^
-Armijo Line Search
+Armijo Line Search [#NO1]_
 """"""""""""""""""
-In order to satisfy the condition that the decrease of the function is at least proportional to the decrease of the tangent, 
-there are:
+In order to satisfy the condition that the decrease of the function is at least proportional to the decrease of the tangent, there are:
 
 $$
-f\\left(x_k+\\alpha_k d_k\\right) \\leqslant f\\left(x_k\\right)+c_1 \\alpha_k d_k^T g_k
+f\\left(x_k + a_k d_k\\right) \\leqslant f\\left(x_k\\right) + c_1 a_k g_k^T d_k
 $$
 
 Among them, $c_1\\in (0,1)$ is generally taken as $c_1 = 10^{-4}$.
@@ -304,36 +303,71 @@ Among them, $c_1\\in (0,1)$ is generally taken as $c_1 = 10^{-4}$.
 .. image:: https://raw.githubusercontent.com/RyunMi/NCG-optimizer/master/docs/ArmijoLS.png
         :width: 800px
 
-Wolfe Line Search (Coming Soon...)
-""""""""""""""""""""""""""""""""""
-In the following two formulas, the first inequality is a overwrite of the Armijo criterion.
-In addition, in order to prevent the step size from being too small and ensure that the objective function decreases sufficiently, 
-the second inequality is introduced, so there is:
+Curvature Line Search [#NO1]_
+""""""""""""""""""
+The Armijo condition does not ensure significant progress as it is satisfied for all sufficiently small values of $$α_k$$. So, it often gets stuck far away from the optimal solution. As a result, the Curvature condition requires the current improvement to be greater than $$c2$$ times the previous one.
 
 $$
-f\\left(x_k+\\alpha_k d_k\\right) \\leqslant f\\left(x_k\\right)+c_1 \\alpha_k d_k^T g_k
+\\nabla f\\left(x_k + a_k d_k\\right)^T d_k \\geqslant c_2 \\nabla f_k^T d_k  
+$$
+
+where $c_2\\in (c_1,1)$.
+
+Typical values of $$c_2$$ are $$0.9$$ for Newton or quasi-Newton methods and $$0.1$$ for nonlinear conjugate gradient methods.
+
+.. image:: https://raw.githubusercontent.com/RyunMi/NCG-optimizer/master/docs/Curvature.png
+        :width: 400px
+
+Weak Wolfe Line Search [#NO1]_
+"""""""""""""""""""""""""""""""""
+Weak Wolfe condition utilizes Armijo as a lower bound solver and Curvature as an upper bound solver.
+
+$$
+f\\left(x_k + a_k d_k\\right) \\leqslant f\\left(x_k\\right) + c_1 a_k g_k^T d_k
 $$
 
 $$
-\\nabla f\\left(x_k+\\alpha d_k\\right)^T d_k \\geq c_2 \\nabla f_k^T d_k  
+\\nabla f\\left(x_k + a_k d_k\\right)^T d_k \\geqslant c_2 \\nabla f_k^T d_k  
 $$
 
-where the $c_2 \\in (c_1, 1)$.
+where $$0 < c_1 < c_2 < 1$$.
 
+.. image:: https://raw.githubusercontent.com/RyunMi/NCG-optimizer/master/docs/Weak_Wolfe.png
+        :width: 500px
+        
 Strong Wolfe Line Search [#NO1]_ [#MF]_
 """""""""""""""""""""""""""""""""""""""
-The Strong Wolfe criterion reduces the constraint to less than 0 on the basis of the original Wolfe criterion to ensure the true approximation of the exact line search :
+Despite Weak Wolfe conditions being considered a reliable method, it often needs many parameter updates to reach the optimal solution. For this reason, Strong Wolfe conditions can speed up the searching process by forcing $$α_k$$ to lie in at least a broad neighborhood of the optimal point.
 
 $$
-f\\left(x_k+\\alpha_k d_k\\right) \\leqslant f\\left(x_k\\right)+c_1 \\alpha_k d_k^T g_k
+f\\left(x_k + a_k d_k\\right) \\leqslant f\\left(x_k\\right) + c_1 a_k g_k^T d_k
 $$
 
 $$
-\|\\nabla f\\left(x_k+\\alpha d_k\\right)^T d_k\| \\leq -c_2 \\nabla f_k^T d_k  
+\|\\nabla f\\left(x_k + a_k d_k\\right)^T d_k\| \\leqslant c_2 \|\\nabla f_k^T d_k\|
 $$
+
+where $$0 < c_1 < c_2 < 1$$.
 
 .. image:: https://raw.githubusercontent.com/RyunMi/NCG-optimizer/master/docs/Strong_Wolfe.png
         :width: 800px
+
+Goldstein Line Search [#NO1]_ [#MF]_
+"""""""""""""""""""""""""""""""""""""""
+Goldstein conditions are built on top of Wolfe conditions. It is a great alternative method as it ensures both a sufficient decrement of the objective value and avoids too large parameter updates.
+
+$$
+f\\left(x_k + a_k d_k\\right) \\leqslant f\\left(x_k\\right) + c a_k g_k^T d_k
+$$
+
+$$
+f\\left(x_k + a_k d_k\\right) \\geqslant f\\left(x_k\\right) + (1-c) a_k g_k^T d_k
+$$
+
+where $$0 < c < 0.5$$.
+
+.. image:: https://raw.githubusercontent.com/RyunMi/NCG-optimizer/master/docs/Goldstein.png
+        :width: 600px
 
 .. image:: https://raw.githubusercontent.com/RyunMi/NCG-optimizer/master/docs/Zoom.png
         :width: 800px
