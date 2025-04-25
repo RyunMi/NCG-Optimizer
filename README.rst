@@ -59,7 +59,7 @@ Nonlinear Conjugate Gradient
 
 Fletcher-Reeves Method
 """"""""""""""""""""""
-The Fletcher-Reeves conjugate gradient( **FR** ) method  is the earliest nonlinear conjugate gradient method. 
+The Fletcher-Reeves conjugate gradient(**FR**) method  is the earliest nonlinear conjugate gradient method. 
 It was obtained by Fletcher and Reeves in 1964 by extending the conjugate gradient method for solving linear equations to solve optimization problems. 
 
 The scalar parameter update formula of the FR method is as follows:
@@ -99,8 +99,8 @@ $$ \\beta_k^{PRP}=\\frac{g_{k}^{T}(g_{k}-g_{k-1})}{\\lVert g_{k-1}\\rVert^2}$$
 The convergence analysis of the PRP method is often closely related to the selected line search. When the step size $s_k = x_{k+1} - x_{k} \\to 0$ is regarded as a measure of global convergence, 
 the PRP method of exact line search is used to converge the uniformly convex function under this benchmark. 
 The PRP method using Armijo-type inexact line search method converges globally for general nonconvex functions. 
-The PRP $^+$ method using the strong Wolfe( $0 < c_2 < \\frac{1}{4}$ ) inexact line search method converges globally for general nonconvex functions. 
-The PRP method with some constant step size factor ( involving Lipschitz constant ) inexact line search method converges globally for general nonconvex functions.
+The PRP $^+$ method using the strong Wolfe($0 < c_2 < \\frac{1}{4}$) inexact line search method converges globally for general nonconvex functions. 
+The PRP method with some constant step size factor (involving Lipschitz constant) inexact line search method converges globally for general nonconvex functions.
 
 .. code-block:: python
 
@@ -118,7 +118,7 @@ The PRP method with some constant step size factor ( involving Lipschitz constan
 Hestenes-Stiefel Method
 """""""""""""""""""""""
 
-Another famous conjugate gradient method Hestenes-Stiefel( **HS** ) method was proposed by Hestenes and Stiefel.
+Another famous conjugate gradient method Hestenes-Stiefel(**HS**) method was proposed by Hestenes and Stiefel.
 The scalar parameter update formula of the HS method is as follows:
 
 $$ \\beta_{k}^{HS}=\\frac{g_{k}^{T}(g_{k}-g_{k-1})}{(g_{k}-g_{k-1})^Td_{k-1}} $$
@@ -130,7 +130,7 @@ However, the theoretical properties and computational performance of the HS meth
 The convergence analysis of the HS method is often closely related to the selected line search. 
 If the $f(x)$ level set is bounded, its derivative is Lipschitz continuous and satisfies the sufficient descent condition, 
 then the HS method with Wolfe inexact line search method is globally convergent. 
-The HS $^+$ method with the strong Wolfe ( $0 < c_2 < \\frac{1}{3}$ ) inexact line search method converges globally for general nonconvex functions.
+The HS $^+$ method with the strong Wolfe ($0 < c_2 < \\frac{1}{3}$) inexact line search method converges globally for general nonconvex functions.
 
 .. code-block:: python
 
@@ -147,7 +147,7 @@ The HS $^+$ method with the strong Wolfe ( $0 < c_2 < \\frac{1}{3}$ ) inexact li
 
 Conjugate Descent Method
 """"""""""""""""""""""""
-Conjugate Descent ( **CD** ) was first introduced by Fletcherl in 1987. 
+Conjugate Descent (**CD**) was first introduced by Fletcherl in 1987. 
 It can avoid the phenomenon that a rising search direction may occur in each iteration 
 such as the PRP method and the FR method under certain conditions.
 
@@ -156,7 +156,7 @@ The scalar parameter update formula of the CD method is as follows:
 $$ \\beta_{k}^{CD}=\\frac{g_{k}^T g_{k}}{-(g_{k-1})^T d_{k-1}} $$
 
 The convergence analysis of the CD method is often closely related to the selected line search. 
-The CD method using the strong Wolfe ( $c_2 < 1$ ) inexact line search method converges globally for general nonconvex functions, 
+The CD method using the strong Wolfe ($c_2 < 1$) inexact line search method converges globally for general nonconvex functions, 
 but the convergence accuracy cannot be guaranteed. 
 The CD method using Armijo inexact line search method converges globally for general nonconvex functions.
 
@@ -175,7 +175,7 @@ The CD method using Armijo inexact line search method converges globally for gen
 
 Liu-Storey Method
 """""""""""""""""
-Liu-Storey ( **LS** ) conjugate gradient method is a nonlinear conjugate gradient method 
+Liu-Storey (**LS**) conjugate gradient method is a nonlinear conjugate gradient method 
 proposed by Liu and Storey in 1991, which has good numerical performance.
 
 The scalar parameter update formula of the LS method is as follows:
@@ -183,7 +183,7 @@ The scalar parameter update formula of the LS method is as follows:
 $$ \\beta_{k}^{LS}=\\frac{g_{k}^T (g_{k} - g_{k-1})}{ - g_{k-1}^T d_{k-1}} $$
 
 The convergence analysis of the LS method is often closely related to the selected line search. 
-The LS method with strong Wolfe inexact line search method has global convergence property ( under Lipschitz condition ). 
+The LS method with strong Wolfe inexact line search method has global convergence property (under Lipschitz condition). 
 The LS method using Armijo-type inexact line search method converges globally for general nonconvex functions.
 
 .. code-block:: python
@@ -204,7 +204,7 @@ The LS method using Armijo-type inexact line search method converges globally fo
 Dai-Yuan Method
 """""""""""""""
 
-The Dai-Yuan method ( **DY** ) was first proposed by Yuhong Dai and Yaxiang Yuan in 1995, which always produces a descent search direction under weaker line search conditions and is globally convergent. 
+The Dai-Yuan method (**DY**) was first proposed by Yuhong Dai and Yaxiang Yuan in 1995, which always produces a descent search direction under weaker line search conditions and is globally convergent. 
 In addition, good convergence results can be obtained without using strong Wolfe inexact line search but only using Wolfe inexact line search.
 
 The scalar parameter update formula of the DY method is as follows:
@@ -230,7 +230,7 @@ The DY method using the Wolfe inexact line search method converges globally for 
 
 Hager-Zhang Method [#HZ]_
 """""""""""""""""""""""""
-The Hager-Zhang ( **HZ** ) method is a new nonlinear conjugate gradient method proposed by Hager and Zhang in 2005. 
+The Hager-Zhang (**HZ**) method is a new nonlinear conjugate gradient method proposed by Hager and Zhang in 2005. 
 It satisfies the sufficient descent condition and has global convergence for strongly convex functions, 
 and the search direction approaches the direction of the memoryless BFGS quasi-Newton method.
 
@@ -241,7 +241,7 @@ $$
 $$
 
 The convergence analysis of the HZ method is often closely related to the selected line search. 
-The HZ method with ( strong ) Wolfe inexact line search method converges globally for general nonconvex functions. 
+The HZ method with (strong) Wolfe inexact line search method converges globally for general nonconvex functions. 
 The HZ $^+$ method using Armijo inexact line search method converges globally for general nonconvex functions.
 
 .. code-block:: python
@@ -261,7 +261,7 @@ The HZ $^+$ method using Armijo inexact line search method converges globally fo
 Hybrid HS-DY Method
 """""""""""""""""""
 Dai and Yuan studied the **HS-DY** hybrid conjugate gradient method of. 
-Compared with other hybrid conjugate gradient methods ( such as FR + PRP hybrid conjugate gradient method ), 
+Compared with other hybrid conjugate gradient methods (such as FR + PRP hybrid conjugate gradient method), 
 the advantage of this hybrid method is that it does not require the line search to satisfy the strong Wolfe condition, but only the Wolfe condition. 
 Their numerical experiments show that the HS-DY hybrid conjugate gradient method performs very well on difficult problems.
 
@@ -305,7 +305,7 @@ Among them, $c_1\\in (0,1)$ is generally taken as $c_1 = 10^{-4}$.
 
 Curvature Line Search [#NO1]_
 """"""""""""""""""""""""""""""
-The Armijo condition does not ensure significant progress as it is satisfied for all sufficiently small values of $$α_k$$. So, it often gets stuck far away from the optimal solution. As a result, the Curvature condition requires the current improvement to be greater than $$c2$$ times the previous one.
+The Armijo condition does not ensure significant progress as it is satisfied for all sufficiently small values of $$α_k$$. So, it often gets stuck far away from the optimal solution. As a result, the Curvature condition requires the current improvement to be greater than $$c_2$$ times the previous one.
 
 $$
 \\nabla f\\left(x_k + a_k d_k\\right)^T d_k \\geqslant c_2 \\nabla f_k^T d_k  
