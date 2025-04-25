@@ -375,7 +375,7 @@ where $$0 < c < 0.5$$.
 Contribution
 ============
 
-Maintained by `@RyunMi <https://github.com/RyunMi>`__, `@Apostolis-Greece <https://github.com/Apostolis-Greece>`.
+Maintained by `@RyunMi <https://github.com/RyunMi>`__, `@Apostolis-Greece <https://github.com/Apostolis-Greece>__`.
 
 References
 ==========
