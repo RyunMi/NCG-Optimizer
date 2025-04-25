@@ -14,7 +14,7 @@ NCG-Optimizer
 
 **NCG-Optimizer** is a set of optimizer about *nonlinear conjugate gradient* in PyTorch.
 
-Inspired by `jettify <https://github.com/jettify/pytorch-optimizer>`__ and `kozistr <https://github.com/kozistr/pytorch_optimizer>`__.
+Inspired by `@jettify <https://github.com/jettify/pytorch-optimizer>`__ and `@kozistr <https://github.com/kozistr/pytorch_optimizer>`__.
 
 Install
 =======
@@ -291,7 +291,7 @@ and the performance effect is also better than the PRP method.
 Line Search
 ^^^^^^^^^^^
 Armijo Line Search [#NO1]_
-""""""""""""""""""
+"""""""""""""""""""""""""""
 In order to satisfy the condition that the decrease of the function is at least proportional to the decrease of the tangent, there are:
 
 $$
@@ -304,7 +304,7 @@ Among them, $c_1\\in (0,1)$ is generally taken as $c_1 = 10^{-4}$.
         :width: 800px
 
 Curvature Line Search [#NO1]_
-""""""""""""""""""
+""""""""""""""""""""""""""""""
 The Armijo condition does not ensure significant progress as it is satisfied for all sufficiently small values of $$α_k$$. So, it often gets stuck far away from the optimal solution. As a result, the Curvature condition requires the current improvement to be greater than $$c2$$ times the previous one.
 
 $$
@@ -372,18 +372,10 @@ where $$0 < c < 0.5$$.
 .. image:: https://raw.githubusercontent.com/RyunMi/NCG-optimizer/master/docs/Zoom.png
         :width: 800px
 
-Citation
-========
-Please cite original authors of optimization algorithms. If you like this software:
+Contribution
+============
 
-::
-
-    @software{Mi_ncgoptimizer,
-    	title        = {{NCG-Optimizer -- a set of optimizer about nonlinear conjugate gradient in PyTorch.}},
-    	author       = {Kerun Mi},
-    	year         = 2025,
-    	month        = 4,
-    	version      = {0.2.0}}
+Maintained by `@RyunMi <https://github.com/RyunMi>`__, `@Apostolis-Greece <https://github.com/Apostolis-Greece>`.
 
 References
 ==========
